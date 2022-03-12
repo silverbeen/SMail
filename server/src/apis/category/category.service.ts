@@ -35,25 +35,31 @@ export class CategoryService {
         // .addSelect('COUNT(*) as total')
         // .groupBy('category.field_id')
         // .getRawMany();
-        const categories = await this.categoryRepository.find({
-          where: {
-            categoryId: category.categoryListId,
-          },
-        });
+        const categories = await this.categoryRepository
+          .createQueryBuilder('content')
+          .select('content.field_id', 'fieldId')
+          .addSelect('content.category_id', 'categoryId')
+          .addSelect('content.field_name', 'fieldName')
+          .addSelect('COUNT(content.category_id)', 'contentCnt')
+          .where('content.category_id = :id', { id: category.categoryListId })
+          .groupBy('content.field_id')
+          .getRawMany();
+        //   where: {
+        //     categoryId: category.categoryListId,
+        //   },
+        // });
 
-        categories.map(async (content) => {
-          const contentCnt = await this.contentRepository
-            .createQueryBuilder('content')
-            .where('content.field_id = :id', { id: content.fieldId })
-            .getCount();
+        // categories.map(async (content) => {
+        //   const contentCnt = await this.contentRepository
+        //     .createQueryBuilder('content')
+        //     .where('content.field_id = :id', { id: content.fieldId })
+        //     .getCount();
 
-          // content.('contentCnt', contentCnt);
-          console.log(contentCnt);
-        });
+        // content.('contentCnt', contentCnt);
+        // console.log(contentCnt);
+        //test.list = categories;
 
-        test.list = categories;
-
-        return test;
+        return categories;
       }),
     );
 
