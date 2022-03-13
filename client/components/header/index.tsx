@@ -10,6 +10,13 @@ const Header = () => {
     openMenu ? setOpenMenu(false) : setOpenMenu(true);
   };
 
+  const logoutHandle = () => {
+    openMenuHandle();
+
+    localStorage.removeItem("access-token");
+    localStorage.removeItem("refresh-token");
+  };
+
   return (
     <HeaderContainer>
       <img src="logo" alt="logo" />
@@ -26,7 +33,9 @@ const Header = () => {
             <span>sliverbeen</span>
             <img src="/assets/icon/ArrowIcon.svg" alt="더보기 아이콘" />
           </div>
-          <MoreMenu openMenu={openMenu}>로그아웃</MoreMenu>
+          <MoreMenu onClick={logoutHandle} openMenu={openMenu}>
+            로그아웃
+          </MoreMenu>
         </ProfileContainer>
       </MenuContainer>
     </HeaderContainer>
