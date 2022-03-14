@@ -6,8 +6,16 @@ import {
 } from "../../../styles/color";
 import TextareaAutosize from "react-textarea-autosize";
 import IconBox from "./IconBox";
+import { useRecoilValue } from "recoil";
+import { MailInputAtom } from "../../../lib/module/atom/mail";
 
-const MailInput = () => {
+type Props = {
+  modalOpenHandle: () => void;
+};
+
+const MailInput = ({ modalOpenHandle }: Props) => {
+  const mailValue = useRecoilValue(MailInputAtom);
+
   return (
     <MailInputContainer>
       <TitleWrapper>
@@ -18,13 +26,16 @@ const MailInput = () => {
         />
       </TitleWrapper>
       <ContentWrapper>
-        <TextareaAutosize placeholder="메일 첫 문장은 인사말과 자신을 밝히세요!"></TextareaAutosize>
+        <TextareaAutosize
+          placeholder="메일 첫 문장은 인사말과 자신을 밝히세요!"
+          defaultValue={mailValue}
+        ></TextareaAutosize>
         <div className="btn_container">
           <div className="icon_container">
             <IconBox icon="Copy" />
             <IconBox icon="Save" />
           </div>
-          <IconBox icon="Plus" />
+          <IconBox icon="Plus" templateModalOpen={modalOpenHandle} />
         </div>
       </ContentWrapper>
     </MailInputContainer>
