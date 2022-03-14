@@ -1,9 +1,16 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
-import { blueColor, redColor } from "../../styles/color";
+import { blueColor, mainColor, redColor } from "../../styles/color";
+
+const menuData = [
+  { id: "menu1", name: "템플릿 제작", path: "/template" },
+  { id: "menu2", name: "메일 작성 가이드", path: "/guide" },
+];
 
 const Header = () => {
+  const router = useRouter();
   const [openMenu, setOpenMenu] = useState<boolean>(false);
 
   const openMenuHandle = () => {
@@ -21,12 +28,18 @@ const Header = () => {
     <HeaderContainer>
       <img src="logo" alt="logo" />
       <MenuContainer>
-        <li>
-          <Link href="/template">템플릿 제작</Link>
-        </li>
-        <li>
-          <Link href="/template">메일 작성 가이드</Link>
-        </li>
+        {menuData.map((menu) => (
+          <li key={menu.id}>
+            <a
+              href={menu.path}
+              style={{
+                color: menu.path === router.pathname ? `${mainColor}` : "",
+              }}
+            >
+              {menu.name}
+            </a>
+          </li>
+        ))}
         <ProfileContainer>
           <div className="profile_box" onClick={openMenuHandle}>
             <div className="profile_circle" />
@@ -72,6 +85,11 @@ const MenuContainer = styled.ul`
     gap: 10px;
     color: ${blueColor};
     font-size: 14px;
+
+    > a {
+      font-weight: 500;
+      transition: all 0.5s;
+    }
   }
 `;
 
