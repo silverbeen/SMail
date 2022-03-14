@@ -3,9 +3,10 @@ import { mintBlueColor } from "../../../styles/color";
 
 type Props = {
   icon: "Copy" | "Save" | "Plus";
+  templateModalOpen?: () => void;
 };
 
-const IconBox = ({ icon }: Props) => {
+const IconBox = ({ icon, templateModalOpen }: Props) => {
   const IconNameChangeHandle = (icon: "Copy" | "Save" | "Plus") => {
     if (icon == "Copy") return "Copy";
     else if (icon == "Save") return "Save";
@@ -13,7 +14,7 @@ const IconBox = ({ icon }: Props) => {
   };
 
   return (
-    <IconBoxContainer>
+    <IconBoxContainer onClick={templateModalOpen}>
       <img src={`/assets/icon/${icon}Icon.svg`} alt={`${icon} 아이콘`} />
       <span>{IconNameChangeHandle(icon)}</span>
     </IconBoxContainer>
