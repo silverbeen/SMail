@@ -36,12 +36,6 @@ export class CategoryService {
           .groupBy('content.field_id')
           .getRawMany();
 
-        // const categories= category.map(async (content) => {
-        //     const contentCnt = await this.contentRepository
-        //       .createQueryBuilder('content')
-        //       .where('content.field_id = :id', { id: content.fieldId })
-        //       .getCount();
-
         test.list = categories;
 
         return test;
