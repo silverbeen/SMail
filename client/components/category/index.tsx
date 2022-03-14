@@ -1,16 +1,32 @@
+import Link from "next/link";
 import styled from "@emotion/styled";
+import { useRouter } from "next/router";
 import { blueColor } from "../../styles/color";
+import axios from "axios";
+import { useQuery } from "react-query";
+import { CategoryListType } from "../../lib/types/Category";
 
 const CategoryList = () => {
+  const router = useRouter();
+
+  const { data: categoryData } = useQuery("categoryList", () =>
+    axios("http://localhost:3000/category")
+  );
+
   return (
     <CategoryListContainer>
-      <CategoryItems>
-        <h3>인사말</h3>
-
-        <li>날씨/인사 (63)</li>
-        <li>날씨/인사 (63)</li>
-        <li>날씨/인사 (63)</li>
-      </CategoryItems>
+      {categoryData?.data.map((categorys: CategoryListType, index: number) => (
+        <CategoryItems key={index}>
+          <h3>{categorys.title}</h3>
+          {categorys.list.map((field) => (
+            <li key={field.fieldId}>
+              <Link href={router.pathname + "?" + field.fieldId}>
+                {field.fieldName}
+              </Link>
+            </li>
+          ))}
+        </CategoryItems>
+      ))}
     </CategoryListContainer>
   );
 };
@@ -30,6 +46,7 @@ const CategoryItems = styled.ul`
   display: flex;
   flex-direction: column;
   color: ${blueColor};
+  margin-bottom: 25px;
 
   h3 {
     font-weight: 500;
