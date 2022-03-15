@@ -17,7 +17,7 @@ export class CategoryService {
     private readonly contentRepository: Repository<Content>,
   ) {}
 
-  public async getCategoryListAll() {
+  async getCategoryListAll() {
     const categoryTitleList = await this.categoryListRepository.find();
 
     const categoryList = await Promise.all(

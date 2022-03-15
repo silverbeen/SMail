@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { CategoryService } from './category.service';
 
 // api 요청을 컨트롤 하는 것
@@ -11,6 +11,6 @@ export class CategoryController {
 
   @Get('/')
   async getCategoryListAll() {
-    return this.categoryService.getCategoryListAll();
+    return await this.categoryService.getCategoryListAll();
   }
 }
