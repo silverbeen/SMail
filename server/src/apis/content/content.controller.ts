@@ -10,4 +10,6 @@ export class ContentController {
   async getContentList(@Query('id') id: number) {
     return await this.contentService.getContentList(id);
   }
+
+  // TODO: 카테고리 저장하여 내 서랍에 추가하기 기능 구현
 }
