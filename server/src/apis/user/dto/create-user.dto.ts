@@ -10,3 +10,11 @@ export class CreateUserDto {
   @IsString()
   userPassword: string;
 }
+
+export class AuthUserDto {
+  @IsString()
+  userId: string;
+
+  @IsString()
+  userPassword: string;
+}
