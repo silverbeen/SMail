@@ -1,7 +1,11 @@
 import { Module } from '@nestjs/common';
+import { APP_FILTER } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CategoryModule } from './apis/category/category.module';
+import { ContentModule } from './apis/content/content.module';
+import { UserModule } from './apis/user/user.module';
 import { User } from './entities/User';
+import CatchException from './error/CatchException';
 
 @Module({
   imports: [
@@ -17,6 +21,14 @@ import { User } from './entities/User';
     }),
     TypeOrmModule.forFeature([User]),
     CategoryModule,
+    ContentModule,
+    UserModule,
+  ],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: CatchException,
+    },
   ],
 })
 export class AppModule {}
