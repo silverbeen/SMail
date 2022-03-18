@@ -5,12 +5,18 @@ import { blueColor } from "../../styles/color";
 import axios from "axios";
 import { useQuery } from "react-query";
 import { CategoryListType } from "../../lib/types/Category";
+import { MAIN_URL } from "../../lib/api/common";
 
 const CategoryList = () => {
   const router = useRouter();
 
-  const { data: categoryData } = useQuery("categoryList", () =>
-    axios("http://localhost:3000/category")
+  const { data: categoryData } = useQuery(
+    ["categoryList"],
+    () => axios(`${MAIN_URL}/category`),
+    {
+      staleTime: Infinity,
+      cacheTime: Infinity,
+    }
   );
 
   return (
@@ -20,9 +26,7 @@ const CategoryList = () => {
           <h3>{categorys.title}</h3>
           {categorys.list.map((field) => (
             <li key={field.fieldId}>
-              <Link href={router.pathname + "?" + field.fieldId}>
-                {field.fieldName}
-              </Link>
+              <Link href={`?id=${field.fieldId}`}>{field.fieldName}</Link>
             </li>
           ))}
         </CategoryItems>
