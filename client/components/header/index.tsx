@@ -5,6 +5,7 @@ import { useState } from "react";
 import { blueColor, mainColor, redColor } from "../../styles/color";
 
 const menuData = [
+  { id: "menu0", name: "메일 작성", path: "/" },
   { id: "menu1", name: "템플릿 제작", path: "/template" },
   { id: "menu2", name: "메일 작성 가이드", path: "/guide" },
 ];
@@ -24,6 +25,10 @@ const Header = () => {
     localStorage.removeItem("refresh-token");
   };
 
+  const handleClick=(path : string)=>{
+    router.push(`/${path}`)
+  }
+
   return (
     <HeaderContainer>
       <img src="logo" alt="logo" />
@@ -31,7 +36,7 @@ const Header = () => {
         {menuData.map((menu) => (
           <li key={menu.id}>
             <a
-              href={menu.path}
+              onClick={()=>handleClick(menu.path)}
               style={{
                 color: menu.path === router.pathname ? `${mainColor}` : "",
               }}
