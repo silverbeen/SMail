@@ -1,8 +1,12 @@
 import styled from "@emotion/styled";
+import axios from "axios";
+import { useRouter } from "next/router";
 import { useState } from "react";
+import { useQuery } from "react-query";
 import { useRecoilState } from "recoil";
-import { ToastSuccess } from "../../../lib/function/toast";
+import { MAIN_URL } from "../../../lib/api/common";
 import { MailInputAtom } from "../../../lib/module/atom/mail";
+import { ContentType } from "../../../lib/types/ContentTypes";
 import {
   blueColor,
   grayBorderColor,
@@ -11,21 +15,6 @@ import {
   mintColor,
 } from "../../../styles/color";
 
-const contentData = [
-  {
-    contentId: 1,
-    content: "은빈님, 안녕하세요! 대덕소프트웨어 마이스터고 학생 강은빈입니다.",
-  },
-  {
-    contentId: 2,
-    content: "다들 반가워여~~~~~",
-  },
-  {
-    contentId: 3,
-    content: "환영해요~!!~!~",
-  },
-];
-
 const menuData = [
   { id: 1, menu: "문구" },
   { id: 2, menu: "서랍" },
@@ -33,12 +22,23 @@ const menuData = [
 ];
 
 const ContentBox = () => {
+  const router = useRouter();
   const [mailValue, setMailValue] = useRecoilState(MailInputAtom);
   const [selected, setSelected] = useState<number>(1);
 
+  const { data: contentData, isLoading } = useQuery(
+    ["contentData", router.query.id],
+    () => axios(`${MAIN_URL}/content?id=${router.query.id}`),
+    {
+      cacheTime: Infinity,
+      staleTime: Infinity,
+      enabled: !!router.query.id,
+    }
+  );
+
   const addIconClickHanle = (contentId: number) => {
-    const textValue = contentData.find(
-      (content) => contentId === content.contentId
+    const textValue = contentData?.data.find(
+      (content: ContentType) => contentId === content.contentId
     )?.content;
 
     setMailValue(mailValue + "\n" + textValue);
@@ -66,7 +66,7 @@ const ContentBox = () => {
         ))}
       </MenuContainer>
       <ContentWrapper>
-        {contentData.map((content) => (
+        {contentData?.data.map((content: ContentType) => (
           <ContentItemBox key={content.contentId}>
             <pre>{content.content}</pre>
             <div className="item_box">
