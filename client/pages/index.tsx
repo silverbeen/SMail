@@ -26,9 +26,8 @@ const Home: NextPage = () => {
     </HomeConrainer>
   );
 };
-export default Home;
 
-const HomeConrainer = styled.div`
+export const HomeConrainer = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;
@@ -54,3 +53,5 @@ const MailContainer = styled.div`
   width: 400px;
   height: 100%;
 `;
+
+export default Home;
