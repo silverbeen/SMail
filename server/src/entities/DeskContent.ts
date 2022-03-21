@@ -6,8 +6,8 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { UserDesk } from './UserDesk';
 import { Content } from './Content';
+import { UserDesk } from './UserDesk';
 
 @Index('desk_content_id_UNIQUE', ['deskContentId'], { unique: true })
 @Index('fk_desk_content_content1_idx', ['contentId'], {})

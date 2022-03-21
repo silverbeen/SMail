@@ -14,6 +14,10 @@ import { DeskContent } from './DeskContent';
 @Index('fk_user_desk_user1_idx', ['userUserId'], {})
 @Entity('user_desk', { schema: 'smail_db' })
 export class UserDesk {
+  constructor(userId?: string) {
+    this.userUserId = userId;
+  }
+
   @PrimaryGeneratedColumn({ type: 'int', name: 'user_desk_id', unsigned: true })
   userDeskId: number;
 
