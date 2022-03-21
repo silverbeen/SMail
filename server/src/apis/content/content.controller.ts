@@ -1,4 +1,5 @@
 import { Controller, Get, Query } from '@nestjs/common';
+import { Authorization } from '../../global/authentication';
 import { ContentService } from './content.service';
 
 @Controller('content')
@@ -7,7 +8,8 @@ export class ContentController {
 
   // 카테고리 필터링
   @Get()
-  async getContentList(@Query('id') id: number) {
+  async getContentList(@Authorization() as: any, @Query('id') id: number) {
+    console.log(as);
     return await this.contentService.getContentList(id);
   }
 
