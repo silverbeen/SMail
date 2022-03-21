@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CategoryModule } from './apis/category/category.module';
 import { ContentModule } from './apis/content/content.module';
 import { UserModule } from './apis/user/user.module';
+import { UserdeskModule } from './apis/userdesk/userdesk.module';
 import { User } from './entities/User';
 import CatchException from './error/CatchException';
 
@@ -23,6 +24,7 @@ import CatchException from './error/CatchException';
     CategoryModule,
     ContentModule,
     UserModule,
+    UserdeskModule,
   ],
   providers: [
     {
