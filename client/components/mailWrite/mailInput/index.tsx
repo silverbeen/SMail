@@ -10,7 +10,7 @@ import { useRecoilValue } from "recoil";
 import { MailInputAtom } from "../../../lib/module/atom/mail";
 
 type Props = {
-  modalOpenHandle: () => void;
+  modalOpenHandle?: () => void;
 };
 
 const MailInput = ({ modalOpenHandle }: Props) => {
