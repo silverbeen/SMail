@@ -6,12 +6,15 @@ import { AuthUserDto, CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import HttpError from '../../error/HttpError';
+import { UserDesk } from '../../entities/UserDesk';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    @InjectRepository(UserDesk)
+    private userDeskRepository: Repository<UserDesk>,
     private jwtService: JwtService,
   ) {}
 
@@ -34,7 +37,10 @@ export class UserService {
       10,
     );
 
-    return await this.userRepository.save(createUserDto);
+    await this.userRepository.save(createUserDto);
+    return await this.userDeskRepository.save(
+      new UserDesk(createUserDto.userId),
+    );
   }
 
   async findOne(id: string): Promise<User> {
@@ -50,8 +56,14 @@ export class UserService {
       userId: authUserDto.userId,
     });
 
+    const deskId = await this.userDeskRepository.findOne({
+      userUserId: user.userId,
+    });
+
     if (await this.isExistAndIsPasswordMatch(authUserDto, user)) {
-      return { access_token: this.signToken(authUserDto.userId) };
+      return {
+        access_token: this.signToken(authUserDto.userId, deskId.userDeskId),
+      };
     } else {
       throw new HttpError(400, '로그인 오류');
     }
@@ -67,7 +79,7 @@ export class UserService {
     );
   }
 
-  private signToken(userId: string) {
-    return this.jwtService.sign({ userId: userId });
+  private signToken(userId: string, deskId: number) {
+    return this.jwtService.sign({ userId: userId, deskId: deskId });
   }
 }
