@@ -19,11 +19,26 @@ export class UserdeskService {
   // 서랍 가져오기
   async getDeskContent(id: string) {
     const userDesk = await this.userDeskRepository.findOne({ userUserId: id });
-    const a = await this.deskContentRepository.find({
+    const useDeskContent = await this.deskContentRepository.find({
       userDeskId: userDesk.userDeskId,
     });
-    console.log(a[0]);
-    return a;
+
+    const content = await Promise.all(
+      useDeskContent.map(async (content) => {
+        const contents = await this.contentRepository
+          .createQueryBuilder('content')
+          .select('content.content')
+          .addSelect('content.content_id', 'contentId')
+          .where('content.content_id = :id', { id: content.contentId })
+          .getRawMany();
+
+        console.log(contents);
+
+        return contents;
+      }),
+    );
+
+    return content;
   }
 
   // 서랍 넣기
