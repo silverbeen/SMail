@@ -1,22 +1,14 @@
 import styled from "@emotion/styled";
-import axios from "axios";
-import Link from "next/link";
-import { Router, useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { useMutation } from "react-query";
-import { HomeConrainer } from ".";
+import { NextPage } from "next";
+import { HomeConrainer } from "./index";
 import Header from "../components/header";
-import { MAIN_URL } from "../lib/api/common";
-import { ToastError, ToastSuccess } from "../lib/function/toast";
-import { mintBlueColor } from "../styles/color";
+import LoginLayout from "../components/sign/login";
 
-const Login = () => {
-
-
+const Login: NextPage = () => {
   return (
     <SignFormContainer>
       <Header />
-      <Login />
+      <LoginLayout />
     </SignFormContainer>
   );
 };
