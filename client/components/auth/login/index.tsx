@@ -8,7 +8,7 @@ import { MAIN_URL } from "../../../lib/api/common";
 import { ToastError, ToastSuccess } from "../../../lib/function/toast";
 import { mintBlueColor } from "../../../styles/color";
 
-const Login = () => {
+const LoginLayout = () => {
   const router = useRouter();
   const [btnColor, setBtnColor] = useState<boolean>(false);
   const [inputs, setInputs] = useState({
@@ -43,7 +43,7 @@ const Login = () => {
     () => axios.post(`${MAIN_URL}/user/login`, inputs),
     {
       onSuccess: (res) => {
-        localStorage.setItem("access_token", res.data.access_token);
+        localStorage.setItem("access-token", res.data.access_token);
         ToastSuccess("로그인 되었습니다");
         setTimeout(() => {
           router.replace("/");
@@ -151,4 +151,4 @@ export const SignBtn = styled.button<{ btnColor: boolean }>`
   transition: all 1s;
 `;
 
-export default Login;
+export default LoginLayout;
