@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useQuery } from "react-query";
 import { useRecoilState } from "recoil";
 import { MAIN_URL } from "../../../lib/api/common";
+import { ToastSuccess } from "../../../lib/function/toast";
 import { MailInputAtom } from "../../../lib/module/atom/mail";
 import { ContentType } from "../../../lib/types/ContentTypes";
 import {
@@ -42,7 +43,7 @@ const ContentBox = () => {
     )?.content;
 
     setMailValue(mailValue + "\n" + textValue);
-    // ToastSuccess("✏️문구가 추가되었습니다.");
+    ToastSuccess("✏️문구가 추가되었습니다.");
   };
 
   const menuClickHandle = (id: number) => {
@@ -51,21 +52,21 @@ const ContentBox = () => {
 
   return (
     <ContentBoxContainer>
-      <MenuContainer>
-        {menuData.map((menu) => (
-          <span
-            key={menu.id}
-            onClick={() => menuClickHandle(menu.id)}
-            style={{
-              color: menu.id === selected ? `${mainColor}` : "",
-              fontWeight: menu.id === selected ? 500 : "",
-            }}
-          >
-            {menu.menu}
-          </span>
-        ))}
-      </MenuContainer>
       <ContentWrapper>
+        <MenuContainer>
+          {menuData.map((menu) => (
+            <span
+              key={menu.id}
+              onClick={() => menuClickHandle(menu.id)}
+              style={{
+                color: menu.id === selected ? `${mainColor}` : "",
+                fontWeight: menu.id === selected ? 500 : "",
+              }}
+            >
+              {menu.menu}
+            </span>
+          ))}
+        </MenuContainer>
         {contentData?.data.map((content: ContentType) => (
           <ContentItemBox key={content.contentId}>
             <pre>{content.content}</pre>
@@ -110,7 +111,7 @@ const MenuContainer = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-  margin: 25px 0;
+  margin-bottom: 25px;
   display: flex;
   flex-direction: column;
   align-items: center;
