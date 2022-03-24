@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { NextPage } from "next";
 import { HomeConrainer } from "./index";
 import Header from "../components/header";
-import LoginLayout from "../components/sign/login";
+import LoginLayout from "../components/auth/login";
 
 const Login: NextPage = () => {
   return (
