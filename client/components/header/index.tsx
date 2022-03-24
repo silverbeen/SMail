@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { blueColor, mainColor, redColor } from "../../styles/color";
@@ -25,9 +24,9 @@ const Header = () => {
     localStorage.removeItem("refresh-token");
   };
 
-  const handleClick=(path : string)=>{
-    router.push(`/${path}`)
-  }
+  const handleClick = (path: string) => {
+    router.push(`/${path}`);
+  };
 
   return (
     <HeaderContainer>
@@ -36,7 +35,7 @@ const Header = () => {
         {menuData.map((menu) => (
           <li key={menu.id}>
             <a
-              onClick={()=>handleClick(menu.path)}
+              onClick={() => handleClick(menu.path)}
               style={{
                 color: menu.path === router.pathname ? `${mainColor}` : "",
               }}
