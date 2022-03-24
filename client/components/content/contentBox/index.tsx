@@ -67,19 +67,21 @@ const ContentBox = () => {
             </span>
           ))}
         </MenuContainer>
-        {contentData?.data.map((content: ContentType) => (
-          <ContentItemBox key={content.contentId}>
-            <pre>{content.content}</pre>
-            <div className="item_box">
-              <img
-                src="/assets/icon/CopyIcon.svg"
-                alt=""
-                onClick={() => addIconClickHanle(content.contentId)}
-              />
-              <span>Saved</span>
-            </div>
-          </ContentItemBox>
-        ))}
+        <ContentItemList>
+          {contentData?.data.map((content: ContentType) => (
+            <ContentItemBox key={content.contentId}>
+              <pre>{content.content}</pre>
+              <div className="item_box">
+                <img
+                  src="/assets/icon/CopyIcon.svg"
+                  alt=""
+                  onClick={() => addIconClickHanle(content.contentId)}
+                />
+                <span>Saved</span>
+              </div>
+            </ContentItemBox>
+          ))}
+        </ContentItemList>
       </ContentWrapper>
     </ContentBoxContainer>
   );
@@ -111,10 +113,8 @@ const MenuContainer = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-  margin-bottom: 25px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 23px;
 `;
 
@@ -154,6 +154,16 @@ const ContentItemBox = styled.div`
       cursor: pointer;
     }
   }
+`;
+
+const ContentItemList = styled.div`
+  height: 85%;
+  max-height: 66vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  align-items: center;
 `;
 
 export default ContentBox;
