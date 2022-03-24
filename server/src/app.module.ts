@@ -7,16 +7,22 @@ import { UserModule } from './apis/user/user.module';
 import { UserdeskModule } from './apis/userdesk/userdesk.module';
 import { User } from './entities/User';
 import CatchException from './error/CatchException';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: `.env`,
+      isGlobal: true,
+    }),
+
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '127.0.0.1',
-      port: 3306,
-      username: 'root',
-      password: 'silverbeen',
-      database: 'smail_db',
+      host: process.env.DB_HOST,
+      port: +process.env.DB_PORT,
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
       entities: ['dist/entities/*.{ts,js}'], // Entity 연결
       synchronize: true,
     }),
