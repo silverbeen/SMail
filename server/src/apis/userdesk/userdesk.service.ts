@@ -19,26 +19,36 @@ export class UserdeskService {
   // 서랍 가져오기
   async getDeskContent(id: string) {
     const userDesk = await this.userDeskRepository.findOne({ userUserId: id });
-    const useDeskContent = await this.deskContentRepository.find({
+    const userDeskContent = await this.deskContentRepository.find({
       userDeskId: userDesk.userDeskId,
     });
 
+    const test = {
+      userDeskId: userDesk.userDeskId,
+      content: [],
+    };
     const content = await Promise.all(
-      useDeskContent.map(async (content) => {
+      userDeskContent.map(async (content) => {
         const contents = await this.contentRepository
           .createQueryBuilder('content')
           .select('content.content')
           .addSelect('content.content_id', 'contentId')
+          .leftJoinAndSelect('content.desk_content', 'desk_content')
           .where('content.content_id = :id', { id: content.contentId })
-          .getRawMany();
+          // .andWhere('content.user_desk_id =:id', { id: test.userDeskId })
+          .getRawOne();
 
-        console.log(contents);
+        //console.log(content.content);
+        //const userDeskContentId = content.deskContentId;
 
+        console.log(content.deskContentId);
         return contents;
       }),
     );
 
-    return content;
+    test.content = content;
+
+    return test;
   }
 
   // 서랍 넣기
@@ -56,4 +66,6 @@ export class UserdeskService {
 
     return;
   }
+
+  // TODO: 내 서랍 삭제 API 제작
 }

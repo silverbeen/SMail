@@ -31,13 +31,13 @@ export class DeskContent {
     onDelete: 'NO ACTION',
     onUpdate: 'NO ACTION',
   })
-  @JoinColumn([{ name: 'user_desk_id', referencedColumnName: 'userDeskId' }])
+  @JoinColumn({ name: 'user_desk_id', referencedColumnName: 'userDeskId' })
   userDesk: UserDesk;
 
   @ManyToOne(() => Content, (content) => content.deskContents, {
     onDelete: 'NO ACTION',
     onUpdate: 'NO ACTION',
   })
-  @JoinColumn([{ name: 'content_id', referencedColumnName: 'contentId' }])
+  @JoinColumn({ name: 'content_id', referencedColumnName: 'contentId' })
   content: Content;
 }
