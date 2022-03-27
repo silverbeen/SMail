@@ -9,7 +9,6 @@ export class ContentController {
   // 카테고리 필터링
   @Get()
   async getContentList(@Authorization() as: any, @Query('id') id: number) {
-    console.log(as);
     return await this.contentService.getContentList(id);
   }
 
