@@ -9,6 +9,7 @@ import { User } from './entities/User';
 import CatchException from './error/CatchException';
 import { ConfigModule } from '@nestjs/config';
 import { TemplateModule } from './apis/template/template.module';
+import { MailModule } from './apis/mail/mail.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { TemplateModule } from './apis/template/template.module';
     UserModule,
     UserdeskModule,
     TemplateModule,
+    MailModule,
   ],
   providers: [
     {
