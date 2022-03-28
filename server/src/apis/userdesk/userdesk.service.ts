@@ -19,36 +19,16 @@ export class UserdeskService {
   // 서랍 가져오기
   async getDeskContent(id: string) {
     const userDesk = await this.userDeskRepository.findOne({ userUserId: id });
-    const userDeskContent = await this.deskContentRepository.find({
-      userDeskId: userDesk.userDeskId,
-    });
 
-    const test = {
-      userDeskId: userDesk.userDeskId,
-      content: [],
-    };
-    const content = await Promise.all(
-      userDeskContent.map(async (content) => {
-        const contents = await this.contentRepository
-          .createQueryBuilder('content')
-          .select('content.content')
-          .addSelect('content.content_id', 'contentId')
-          .leftJoinAndSelect('content.desk_content', 'desk_content')
-          .where('content.content_id = :id', { id: content.contentId })
-          // .andWhere('content.user_desk_id =:id', { id: test.userDeskId })
-          .getRawOne();
+    const deskContent = await this.deskContentRepository
+      .createQueryBuilder('desk_content')
+      .select('desk_content_id', 'id')
+      .leftJoin('desk_content.content', 'content')
+      .addSelect('content.content_id', 'content_id')
+      .addSelect('content.content', 'content')
+      .getRawMany();
 
-        //console.log(content.content);
-        //const userDeskContentId = content.deskContentId;
-
-        console.log(content.deskContentId);
-        return contents;
-      }),
-    );
-
-    test.content = content;
-
-    return test;
+    return { userDeskId: userDesk.userDeskId, deskContent };
   }
 
   // 서랍 넣기
@@ -67,5 +47,12 @@ export class UserdeskService {
     return;
   }
 
-  // TODO: 내 서랍 삭제 API 제작
+  async deleteDeskContent(desk_id: number, desk_content_id: number) {
+    return await this.deskContentRepository
+      .createQueryBuilder('desk_content')
+      .delete()
+      .where('desk_content.user_desk_id=:desk_id', { desk_id: desk_id })
+      .andWhere('desk_content.desk_content_id=:id', { id: desk_content_id })
+      .execute();
+  }
 }
