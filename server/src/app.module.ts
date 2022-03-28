@@ -8,6 +8,7 @@ import { UserdeskModule } from './apis/userdesk/userdesk.module';
 import { User } from './entities/User';
 import CatchException from './error/CatchException';
 import { ConfigModule } from '@nestjs/config';
+import { TemplateModule } from './apis/template/template.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { ConfigModule } from '@nestjs/config';
     ContentModule,
     UserModule,
     UserdeskModule,
+    TemplateModule,
   ],
   providers: [
     {
