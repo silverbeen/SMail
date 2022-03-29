@@ -1,6 +1,12 @@
 import { atom } from "recoil";
 
-export const MailInputAtom = atom<string>({
+export const MailInputAtom = atom<{
+  title: string | "";
+  content: string | "";
+}>({
   key: "mailInputAtom",
-  default: "",
+  default: {
+    title: "",
+    content: "",
+  },
 });
