@@ -1,17 +1,20 @@
 import styled from "@emotion/styled";
+import axios from "axios";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
+import { MAIN_URL } from "../../lib/api/common";
 import { blueColor, mainColor, redColor } from "../../styles/color";
 
 const menuData = [
   { id: "menu0", name: "메일 작성", path: "/" },
-  { id: "menu1", name: "템플릿 제작", path: "/template" },
   { id: "menu2", name: "메일 작성 가이드", path: "/guide" },
 ];
 
 const Header = () => {
   const router = useRouter();
   const [openMenu, setOpenMenu] = useState<boolean>(false);
+  const [isToken, setToken] = useState<any>();
 
   const openMenuHandle = () => {
     openMenu ? setOpenMenu(false) : setOpenMenu(true);
@@ -27,6 +30,11 @@ const Header = () => {
   const handleClick = (path: string) => {
     router.push(`/${path}`);
   };
+
+  useEffect(() => {
+    const token = window.localStorage.getItem("access-token");
+    setToken(token);
+  }, []);
 
   return (
     <HeaderContainer>
@@ -44,16 +52,22 @@ const Header = () => {
             </a>
           </li>
         ))}
-        <ProfileContainer>
-          <div className="profile_box" onClick={openMenuHandle}>
-            <div className="profile_circle" />
-            <span>sliverbeen</span>
-            <img src="/assets/icon/ArrowIcon.svg" alt="더보기 아이콘" />
-          </div>
-          <MoreMenu onClick={logoutHandle} openMenu={openMenu}>
-            로그아웃
-          </MoreMenu>
-        </ProfileContainer>
+        {isToken ? (
+          <ProfileContainer>
+            <div className="profile_box" onClick={openMenuHandle}>
+              <div className="profile_circle" />
+              <span>fgh</span>
+              <img src="/assets/icon/ArrowIcon.svg" alt="더보기 아이콘" />
+            </div>
+            <MoreMenu onClick={logoutHandle} openMenu={openMenu}>
+              로그아웃
+            </MoreMenu>
+          </ProfileContainer>
+        ) : (
+          <li>
+            <a onClick={() => handleClick("login")}>로그인</a>
+          </li>
+        )}
       </MenuContainer>
     </HeaderContainer>
   );
@@ -93,6 +107,7 @@ const MenuContainer = styled.ul`
     > a {
       font-weight: 500;
       transition: all 0.5s;
+      cursor: pointer;
     }
   }
 `;
