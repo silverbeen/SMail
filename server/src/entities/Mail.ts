@@ -18,8 +18,11 @@ export class Mail {
   @Column('varchar', { name: 'user_id', length: 30 })
   userId: string;
 
-  @Column('varchar', { name: 'mail_content', length: 255 })
+  @Column('varchar', { name: 'mail_content', length: 500 })
   mailContent: string;
+
+  @Column('varchar', { name: 'mail_title', length: 50 })
+  mailTitle: string;
 
   @ManyToOne(() => User, (user) => user.mail, {
     onDelete: 'NO ACTION',
