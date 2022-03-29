@@ -6,15 +6,63 @@ import {
 } from "../../../styles/color";
 import TextareaAutosize from "react-textarea-autosize";
 import IconBox from "./IconBox";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { MailInputAtom } from "../../../lib/module/atom/mail";
+import { useMutation, useQuery } from "react-query";
+import mail from "../../../lib/api/mail";
+import { useEffect } from "react";
+import { ToastError, ToastSuccess } from "../../../lib/function/toast";
 
 type Props = {
   modalOpenHandle?: () => void;
 };
 
 const MailInput = ({ modalOpenHandle }: Props) => {
-  const mailValue = useRecoilValue(MailInputAtom);
+  const [mailValue, setMailValue] = useRecoilState(MailInputAtom);
+
+  const mailSaveHandle = () => {
+    saveMailMutate();
+  };
+
+  const inputChangeHandle = (e: any) => {
+    const { name, value } = e.target;
+
+    setMailValue({
+      ...mailValue,
+      [name]: value,
+    });
+  };
+
+  const { data: mailData } = useQuery("mailData", () => mail.getMail(), {
+    staleTime: Infinity,
+    cacheTime: Infinity,
+    onSuccess: () => {
+      ToastSuccess("저장된 메일을 불러왔습니다.");
+    },
+    onError: () => {
+      ToastError("저장된 메일을 불러오기에 실패했습니다.");
+    },
+  });
+
+  const { mutate: saveMailMutate } = useMutation(
+    "saveMail",
+    () => mail.postMail(mailValue),
+    {
+      onSuccess: () => {
+        ToastSuccess("메일을 저장했습니다.");
+      },
+      onError: () => {
+        ToastError("다시 시도해주세요");
+      },
+    }
+  );
+
+  useEffect(() => {
+    setMailValue({
+      title: mailData?.data.mailTitle,
+      content: mailData?.data.mailContent,
+    });
+  }, [mailData]);
 
   return (
     <MailInputContainer>
@@ -23,17 +71,22 @@ const MailInput = ({ modalOpenHandle }: Props) => {
         <input
           type="text"
           placeholder="제목은 본문 내용을 표현할 수 있게 작성해주세요."
+          defaultValue={mailValue.title}
+          name="title"
+          onChange={(e) => inputChangeHandle(e)}
         />
       </TitleWrapper>
       <ContentWrapper>
         <TextareaAutosize
           placeholder="메일 첫 문장은 인사말과 자신을 밝히세요!"
-          defaultValue={mailValue}
+          defaultValue={mailValue.content}
+          name="content"
+          onChange={(e) => inputChangeHandle(e)}
         ></TextareaAutosize>
         <div className="btn_container">
           <div className="icon_container">
             <IconBox icon="Copy" />
-            <IconBox icon="Save" />
+            <IconBox icon="Save" mailSaveHandle={mailSaveHandle} />
           </div>
           <IconBox icon="Plus" templateModalOpen={modalOpenHandle} />
         </div>
