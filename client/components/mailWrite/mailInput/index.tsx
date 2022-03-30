@@ -10,7 +10,7 @@ import { useRecoilState } from "recoil";
 import { MailInputAtom } from "../../../lib/module/atom/mail";
 import { useMutation, useQuery } from "react-query";
 import mail from "../../../lib/api/mail";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { ToastError, ToastSuccess } from "../../../lib/function/toast";
 
 type Props = {
@@ -18,10 +18,19 @@ type Props = {
 };
 
 const MailInput = ({ modalOpenHandle }: Props) => {
+  const contentRef = useRef(null);
   const [mailValue, setMailValue] = useRecoilState(MailInputAtom);
 
   const mailSaveHandle = () => {
     saveMailMutate();
+  };
+
+  const mailCopyHandle = () => {
+    const el: any = contentRef.current;
+    el.select();
+    document.execCommand("copy");
+
+    ToastSuccess("클립보드에 복사되었습니다.");
   };
 
   const inputChangeHandle = (e: any) => {
@@ -78,6 +87,7 @@ const MailInput = ({ modalOpenHandle }: Props) => {
       </TitleWrapper>
       <ContentWrapper>
         <TextareaAutosize
+          ref={contentRef}
           placeholder="메일 첫 문장은 인사말과 자신을 밝히세요!"
           value={mailValue.content}
           name="content"
@@ -85,7 +95,7 @@ const MailInput = ({ modalOpenHandle }: Props) => {
         ></TextareaAutosize>
         <div className="btn_container">
           <div className="icon_container">
-            <IconBox icon="Copy" />
+            <IconBox icon="Copy" mailCopyHandle={mailCopyHandle} />
             <IconBox icon="Save" mailSaveHandle={mailSaveHandle} />
           </div>
           <IconBox icon="Plus" templateModalOpen={modalOpenHandle} />

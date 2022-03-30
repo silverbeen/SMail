@@ -5,9 +5,15 @@ type Props = {
   icon: "Copy" | "Save" | "Plus";
   templateModalOpen?: any;
   mailSaveHandle?: any;
+  mailCopyHandle?: any;
 };
 
-const IconBox = ({ icon, templateModalOpen, mailSaveHandle }: Props) => {
+const IconBox = ({
+  icon,
+  templateModalOpen,
+  mailSaveHandle,
+  mailCopyHandle,
+}: Props) => {
   const IconNameChangeHandle = (icon: "Copy" | "Save" | "Plus") => {
     if (icon == "Copy") return "Copy";
     else if (icon == "Save") return "Save";
@@ -15,7 +21,7 @@ const IconBox = ({ icon, templateModalOpen, mailSaveHandle }: Props) => {
   };
 
   const iconClickHandle = () => {
-    if (icon == "Copy") return;
+    if (icon == "Copy") mailCopyHandle();
     else if (icon == "Save") mailSaveHandle();
     else return templateModalOpen();
   };
