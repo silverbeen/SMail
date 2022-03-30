@@ -79,7 +79,7 @@ const MailInput = ({ modalOpenHandle }: Props) => {
       <ContentWrapper>
         <TextareaAutosize
           placeholder="메일 첫 문장은 인사말과 자신을 밝히세요!"
-          defaultValue={mailValue.content}
+          value={mailValue.content}
           name="content"
           onChange={(e) => inputChangeHandle(e)}
         ></TextareaAutosize>

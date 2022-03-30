@@ -42,7 +42,11 @@ const ContentBox = () => {
       (content: ContentType) => contentId === content.contentId
     )?.content;
 
-    setMailValue(mailValue + "\n" + textValue);
+    setMailValue({
+      ...mailValue,
+      content: mailValue.content + "\n" + textValue,
+    });
+
     ToastSuccess("✏️문구가 추가되었습니다.");
   };
 
