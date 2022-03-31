@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Content } from '../../entities/Content';
@@ -35,6 +35,13 @@ export class UserdeskService {
   async putDeskContent(desk_id: number, content_id: number) {
     const desk = await this.userDeskRepository.findOne({ userDeskId: desk_id });
     const content = await this.contentRepository.findOne(content_id);
+
+    const isDeskContent = await this.deskContentRepository.findOne({
+      deskContentId: content.contentId,
+    });
+
+    // 같은 content가 있다면 추가 못하게 하기
+    if (isDeskContent) throw new BadRequestException();
 
     const deskContent = new DeskContent();
     deskContent.userDeskId = desk_id;

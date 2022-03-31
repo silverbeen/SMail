@@ -32,6 +32,7 @@ export class UserdeskController {
     @Authorization() as: any,
     @Body() deskContentId: any,
   ) {
+    console.log(deskContentId.id);
     return await this.userdeskService.deleteDeskContent(
       as.deskId,
       deskContentId.id,
