@@ -10,6 +10,7 @@ import { ContentType } from "../../../lib/types/ContentTypes";
 import ContentItemBox from "./ContentItemBox";
 import desk from "../../../lib/api/desk";
 import template from "../../../lib/api/template";
+import { useEffect } from "react";
 
 const menuData = [
   { id: 1, menu: "문구" },
@@ -56,6 +57,10 @@ const ContentBox = () => {
       return deskData?.data.deskContent;
     } else return templateData?.data;
   }
+
+  useEffect(() => {
+    console.log(optionMenu);
+  }, [optionMenu]);
 
   return (
     <ContentBoxContainer>
