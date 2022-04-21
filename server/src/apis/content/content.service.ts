@@ -18,7 +18,17 @@ export class ContentService {
       userDeskId: userDeskId,
     });
 
-    console.log(deskContent);
+    const content = new Content();
+
+    const test = await this.contentRepository.find({ fieldId: id });
+
+    const desk = await this.deskContentRepository.find();
+
+    test.map((testContent) => {
+      desk.map((item) => item.contentId === testContent.contentId);
+    });
+
+    console.log(test, desk);
 
     return await this.contentRepository.find({ fieldId: id });
   }
