@@ -16,6 +16,7 @@ const CategoryList = () => {
     {
       staleTime: Infinity,
       cacheTime: Infinity,
+      keepPreviousData: true,
     }
   );
 
