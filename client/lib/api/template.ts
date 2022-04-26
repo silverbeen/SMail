@@ -1,4 +1,4 @@
-import { TemplateType } from "../types/templateTypes";
+import { TemplateType } from "../types/TemplateTypes";
 import requset from "./common";
 
 export default {
@@ -7,7 +7,7 @@ export default {
       url: "template",
     });
   },
-  postDesk(data: TemplateType) {
+  createTemplate(data: TemplateType) {
     return requset({
       url: "template",
       method: "POST",

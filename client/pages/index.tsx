@@ -1,14 +1,23 @@
 import styled from "@emotion/styled";
 import type { NextPage } from "next";
+import { useState } from "react";
 import CategoryList from "../components/category";
 import ContentBox from "../components/content/contentBox";
 import Header from "../components/header";
 import MailInput from "../components/mailWrite/mailInput";
 import Title from "../components/mailWrite/title";
+import TemplateModal from "../components/modal/TemplateModal";
 
 const Home: NextPage = () => {
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+
+  const modalOpenHandle = () => {
+    setModalOpen(true);
+  };
+
   return (
     <HomeConrainer>
+      <TemplateModal openModal={modalOpen} setModalOpen={setModalOpen} />
       <Header />
       <ContentContainer>
         <div className="content_selected_container">
@@ -20,7 +29,7 @@ const Home: NextPage = () => {
             title="메일 작성"
             subTitle="다양한 추천 멘트로 메일을 빠르게 보내요!"
           />
-          <MailInput />
+          <MailInput modalOpenHandle={modalOpenHandle} />
         </MailContainer>
       </ContentContainer>
     </HomeConrainer>

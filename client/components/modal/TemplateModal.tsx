@@ -1,12 +1,16 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
+import { useMutation } from "react-query";
 import { ToastSuccess } from "../../lib/function/toast";
+import Template from "../../lib/api/template";
 import {
   blueColor,
   grayTextColor,
   mainColor,
   redColor,
 } from "../../styles/color";
+import { useRecoilState } from "recoil";
+import { MailInputAtom } from "../../lib/module/atom/mail";
 
 type Props = {
   openModal: boolean;
@@ -15,10 +19,12 @@ type Props = {
 
 const TemplateModal = ({ openModal, setModalOpen }: Props) => {
   const [titleValue, setTitleValue] = useState<string | "">("");
+  const [mailValue, setMailValue] = useRecoilState(MailInputAtom);
 
   const addTemplateHandle = () => {
     ToastSuccess("템플릿이 추가되었습니다.");
 
+    createTemplate();
     modalCloseHandle();
     setTitleValue("");
   };
@@ -27,6 +33,10 @@ const TemplateModal = ({ openModal, setModalOpen }: Props) => {
     setModalOpen(false);
     setTitleValue("");
   };
+
+  const { mutate: createTemplate } = useMutation("createTemplate", () =>
+    Template.createTemplate({ title: titleValue, desk_text: mailValue.content })
+  );
 
   return (
     <ModalContainer openModal={openModal}>
