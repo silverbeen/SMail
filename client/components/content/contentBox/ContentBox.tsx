@@ -6,17 +6,11 @@ import { useRecoilState } from "recoil";
 import { MAIN_URL } from "../../../lib/api/common";
 import { contentMenuAtom } from "../../../lib/module/atom/content";
 import { blueColor, grayBorderColor, mainColor } from "../../../styles/color";
-import { ContentType } from "../../../lib/types/ContentTypes";
+import { ContentType } from "../../../@types/ContentTypes";
 import ContentItemBox from "./ContentItemBox";
 import desk from "../../../lib/api/desk";
 import template from "../../../lib/api/template";
-import { useEffect } from "react";
-
-const menuData = [
-  { id: 1, menu: "문구" },
-  { id: 2, menu: "서랍" },
-  { id: 3, menu: "템플릿" },
-];
+import { menuData } from "../../../contexts/menuData";
 
 const ContentBox = () => {
   const router = useRouter();
@@ -26,6 +20,7 @@ const ContentBox = () => {
     setSelected(id);
   };
 
+  // 문구 데이터 가져오기
   const { data: contentData } = useQuery(
     ["contentData", router.query.id],
     () => axios(`${MAIN_URL}/content?id=${router.query.id}`),
@@ -36,11 +31,13 @@ const ContentBox = () => {
     }
   );
 
+  // 서랍 데이터 가져오기
   const { data: deskData } = useQuery(["deskData"], () => desk.getDesk(), {
     cacheTime: Infinity,
     staleTime: Infinity,
   });
 
+  // 템플릿 데이터 가져오기
   const { data: templateData } = useQuery(
     ["templateData"],
     () => template.getTemplate(),
@@ -57,10 +54,6 @@ const ContentBox = () => {
       return deskData?.data.deskContent;
     } else return templateData?.data;
   }
-
-  useEffect(() => {
-    console.log(optionMenu);
-  }, [optionMenu]);
 
   return (
     <ContentBoxContainer>
@@ -80,13 +73,23 @@ const ContentBox = () => {
           ))}
         </MenuContainer>
         <ContentItemList>
-          {menuReturn()?.map((item: ContentType) => (
-            <ContentItemBox
-              key={item.id}
-              contentData={contentData?.data}
-              content={item}
-            />
-          ))}
+          {contentData?.data === [] ? (
+            <>등록된 문구가 없습니다.</>
+          ) : (
+            <>
+              {menuReturn()?.map((item: ContentType) => (
+                <>
+                  {item.title && <span>{item.title}</span>}
+                  <ContentItemBox
+                    key={item.id}
+                    contentData={contentData?.data}
+                    content={item}
+                    option={optionMenu}
+                  />
+                </>
+              ))}
+            </>
+          )}
         </ContentItemList>
       </ContentWrapper>
     </ContentBoxContainer>

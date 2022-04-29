@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { blueColor } from "../../styles/color";
 import axios from "axios";
 import { useQuery } from "react-query";
-import { CategoryListType } from "../../lib/types/Category";
+import { CategoryListType } from "../../@types/Category";
 import { MAIN_URL } from "../../lib/api/common";
 
 const CategoryList = () => {
