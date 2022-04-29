@@ -2,11 +2,11 @@ import styled from "@emotion/styled";
 import type { NextPage } from "next";
 import { useState } from "react";
 import CategoryList from "../components/category";
-import ContentBox from "../components/content/contentBox";
+import ContentBox from "../components/content/contentBox/ContentBox";
 import Header from "../components/header";
 import MailInput from "../components/mailWrite/mailInput";
 import Title from "../components/mailWrite/title";
-import TemplateModal from "../components/modal/TemplateModal";
+import TemplateModal from "../components/modal/TemplateCreateModal";
 
 const Template: NextPage = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);

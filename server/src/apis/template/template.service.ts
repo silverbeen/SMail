@@ -12,7 +12,13 @@ export class TemplateService {
   ) {}
 
   async getTemplate(user_id: string) {
-    const template = await this.templateRepository.find({ userId: user_id });
+    const template = await this.templateRepository
+      .createQueryBuilder('template')
+      .select('template.templateTitle', 'title')
+      .addSelect('template.templateContent', 'content')
+      .addSelect('template.templateId', 'id')
+      .where({ userId: user_id })
+      .getRawMany();
 
     return template;
   }

@@ -2,22 +2,29 @@ import styled from "@emotion/styled";
 import type { NextPage } from "next";
 import { useState } from "react";
 import CategoryList from "../components/category";
-import ContentBox from "../components/content/contentBox";
+import ContentBox from "../components/content/contentBox/ContentBox";
 import Header from "../components/header";
 import MailInput from "../components/mailWrite/mailInput";
 import Title from "../components/mailWrite/title";
-import TemplateModal from "../components/modal/TemplateModal";
+import TemplateCreateModal from "../components/modal/TemplateCreateModal";
+import TemplateDeleteModal from "../components/modal/TemplateDeleteModal";
 
 const Home: NextPage = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [temDelModalOpen, setTemDelModalOpen] = useState<boolean>(false);
 
   const modalOpenHandle = () => {
     setModalOpen(true);
-  };
+  };                                                                                                                                                                                    
 
   return (
     <HomeConrainer>
-      <TemplateModal openModal={modalOpen} setModalOpen={setModalOpen} />
+      <TemplateDeleteModal
+        openModal={temDelModalOpen}
+        setModalOpen={setTemDelModalOpen}
+        templateId={1}
+      />
+      <TemplateCreateModal openModal={modalOpen} setModalOpen={setModalOpen} />
       <Header />
       <ContentContainer>
         <div className="content_selected_container">
