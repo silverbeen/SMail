@@ -1,4 +1,4 @@
-import { TemplateType } from "../types/TemplateTypes";
+import { TemplateType } from "../../@types/TemplateTypes";
 import requset from "./common";
 
 export default {
