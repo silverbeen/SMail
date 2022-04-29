@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
-import { useMutation } from "react-query";
+import { FC, useState } from "react";
+import { useMutation, useQueryClient } from "react-query";
 import { ToastSuccess } from "../../lib/function/toast";
 import Template from "../../lib/api/template";
 import {
@@ -17,7 +17,8 @@ type Props = {
   setModalOpen: (openModal: boolean) => void;
 };
 
-const TemplateModal = ({ openModal, setModalOpen }: Props) => {
+const TemplateCreateModal : FC<Props> = ({ openModal, setModalOpen }) => {
+  const queryClient = useQueryClient();
   const [titleValue, setTitleValue] = useState<string | "">("");
   const [mailValue, setMailValue] = useRecoilState(MailInputAtom);
 
@@ -34,8 +35,18 @@ const TemplateModal = ({ openModal, setModalOpen }: Props) => {
     setTitleValue("");
   };
 
-  const { mutate: createTemplate } = useMutation("createTemplate", () =>
-    Template.createTemplate({ title: titleValue, desk_text: mailValue.content })
+  const { mutate: createTemplate } = useMutation(
+    "createTemplate",
+    () =>
+      Template.createTemplate({
+        title: titleValue,
+        desk_text: mailValue.content,
+      }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("templateData");
+      },
+    }
   );
 
   return (
@@ -76,9 +87,9 @@ const ModalContainer = styled.div<{ openModal: boolean }>`
 `;
 
 const ModalBoxWrapper = styled.div`
-  padding: 20px;
-  width: 320px;
-  height: 220px;
+  padding: 30px;
+  width: 35%;
+  height: 235px;
   background: #ffffff;
   box-shadow: 0px 5px 25px rgba(103, 103, 103, 0.25);
   border-radius: 30px;
@@ -132,4 +143,4 @@ const ModalBoxWrapper = styled.div`
   }
 `;
 
-export default TemplateModal;
+export default TemplateCreateModal;
