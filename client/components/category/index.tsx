@@ -36,7 +36,7 @@ const CategoryList = () => {
   );
 };
 
-export const CategoryListContainer = styled.div`
+export const CategoryListContainer = styled.nav`
   width: 240px;
   min-width: 240px;
   height: 100%;
