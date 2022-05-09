@@ -116,7 +116,7 @@ const ContentItemBox = ({ content, contentData, option }: Props) => {
 };
 
 const ContentItemBoxWrapper = styled.div`
-  width: 90%;
+  width: 100%;
   background: ${mintColor};
   box-shadow: 0px 1px 12px rgba(200, 200, 200, 0.25);
   border-radius: 10px;

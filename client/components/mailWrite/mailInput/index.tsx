@@ -93,19 +93,19 @@ const MailInput = ({ modalOpenHandle }: Props) => {
           name="content"
           onChange={(e) => inputChangeHandle(e)}
         ></TextareaAutosize>
-        <div className="btn_container">
+        <footer className="btn_container">
           <div className="icon_container">
             <IconBox icon="Copy" mailCopyHandle={mailCopyHandle} />
             <IconBox icon="Save" mailSaveHandle={mailSaveHandle} />
           </div>
           <IconBox icon="Plus" templateModalOpen={modalOpenHandle} />
-        </div>
+        </footer>
       </ContentWrapper>
     </MailInputContainer>
   );
 };
 
-const MailInputContainer = styled.div`
+const MailInputContainer = styled.section`
   margin-top: 60px;
   width: 100%;
   height: 500px;
@@ -114,7 +114,7 @@ const MailInputContainer = styled.div`
   border-radius: 30px;
 `;
 
-const TitleWrapper = styled.div`
+const TitleWrapper = styled.header`
   padding: 25px 30px;
   box-sizing: border-box;
   display: flex;

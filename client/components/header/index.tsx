@@ -1,9 +1,6 @@
 import styled from "@emotion/styled";
-import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
-import { MAIN_URL } from "../../lib/api/common";
 import { blueColor, mainColor, redColor } from "../../styles/color";
 
 const menuData = [
@@ -75,7 +72,7 @@ const Header = () => {
 
 export default Header;
 
-const HeaderContainer = styled.section`
+const HeaderContainer = styled.header`
   padding: 0 7.5%;
   box-sizing: border-box;
   position: fixed;
