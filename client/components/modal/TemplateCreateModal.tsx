@@ -17,7 +17,7 @@ type Props = {
   setModalOpen: (openModal: boolean) => void;
 };
 
-const TemplateCreateModal : FC<Props> = ({ openModal, setModalOpen }) => {
+const TemplateCreateModal: FC<Props> = ({ openModal, setModalOpen }) => {
   const queryClient = useQueryClient();
   const [titleValue, setTitleValue] = useState<string | "">("");
   const [mailValue, setMailValue] = useRecoilState(MailInputAtom);
@@ -88,7 +88,8 @@ const ModalContainer = styled.div<{ openModal: boolean }>`
 
 const ModalBoxWrapper = styled.div`
   padding: 30px;
-  width: 35%;
+  width: 400px;
+
   height: 235px;
   background: #ffffff;
   box-shadow: 0px 5px 25px rgba(103, 103, 103, 0.25);
