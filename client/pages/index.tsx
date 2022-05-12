@@ -15,7 +15,7 @@ const Home: NextPage = () => {
 
   const modalOpenHandle = () => {
     setModalOpen(true);
-  };                                                                                                                                                                                    
+  };
 
   return (
     <HomeConrainer>
