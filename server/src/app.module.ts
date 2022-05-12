@@ -27,6 +27,7 @@ import { MailModule } from './apis/mail/mail.module';
       database: process.env.DB_NAME,
       entities: ['dist/entities/*.{ts,js}'], // Entity 연결
       synchronize: true,
+      charset: 'utf8mb4',
     }),
     TypeOrmModule.forFeature([User]),
     CategoryModule,
