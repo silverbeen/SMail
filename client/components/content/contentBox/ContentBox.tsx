@@ -78,15 +78,15 @@ const ContentBox = () => {
           ) : (
             <>
               {menuReturn()?.map((item: ContentType) => (
-                <>
-                  {item.title && <span>{item.title}</span>}
+                <article>
+                  {item.title && <TemplateTitle>{item.title}</TemplateTitle>}
                   <ContentItemBox
                     key={item.id}
                     contentData={contentData?.data}
                     content={item}
                     option={optionMenu}
                   />
-                </>
+                </article>
               ))}
             </>
           )}
@@ -96,17 +96,23 @@ const ContentBox = () => {
   );
 };
 
+const TemplateTitle = styled.p`
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #6f828c;
+`;
+
 const ContentItemList = styled.div`
+  padding: 30px;
   height: 85%;
   max-height: 66vh;
   overflow: auto;
   display: flex;
   flex-direction: column;
   gap: 25px;
-  align-items: center;
 `;
 
-const ContentBoxContainer = styled.article`
+const ContentBoxContainer = styled.section`
   width: 500px;
   min-width: 450px;
   height: 100%;
@@ -115,7 +121,7 @@ const ContentBoxContainer = styled.article`
   border-radius: 30px;
 `;
 
-const MenuContainer = styled.div`
+const MenuContainer = styled.header`
   display: flex;
   flex-direction: row;
   gap: 20px;
@@ -134,7 +140,6 @@ const MenuContainer = styled.div`
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 23px;
 `;
 
 export default ContentBox;
