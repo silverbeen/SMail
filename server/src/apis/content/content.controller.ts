@@ -9,8 +9,6 @@ export class ContentController {
   // 카테고리 필터링
   @Get()
   async getContentList(@Authorization() as: any, @Query('id') id: number) {
-    return await this.contentService.getContentList(as.userDeskId, id);
+    return await this.contentService.getContentList(as.deskId, id);
   }
-
-  // TODO: 카테고리 저장하여 내 서랍에 추가하기 기능 구현
 }

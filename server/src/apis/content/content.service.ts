@@ -18,18 +18,17 @@ export class ContentService {
       userDeskId: userDeskId,
     });
 
-    const content = new Content();
+    const content = await this.contentRepository.find({ fieldId: id });
 
-    const test = await this.contentRepository.find({ fieldId: id });
-
-    const desk = await this.deskContentRepository.find();
-
-    test.map((testContent) => {
-      desk.map((item) => item.contentId === testContent.contentId);
+    return content.map((testContent) => {
+      return {
+        ...testContent,
+        saved:
+          deskContent.filter((item) => item.contentId === testContent.contentId)
+            .length === 0
+            ? false
+            : true,
+      };
     });
-
-    console.log(test, desk);
-
-    return await this.contentRepository.find({ fieldId: id });
   }
 }
