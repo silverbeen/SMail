@@ -4,6 +4,7 @@ export interface ContentType {
   content: string;
   title?: string;
   id: number;
+  saved: boolean;
 }
 
 export interface DeskContentType {
