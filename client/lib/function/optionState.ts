@@ -9,7 +9,8 @@ export function OptionStateChange(id: 1 | 2 | 3) {
   }
 }
 
-export function OptionStateIcon(id: number) {
-  if (id === 3) return "delete";
-  else return "saved";
+export function OptionStateIcon(id: number, saved: boolean) {
+  if (id === 1 && saved) return "saved";
+  else if (id === 1 && !saved) return "add";
+  else return "delete";
 }

@@ -11,6 +11,7 @@ import ContentItemBox from "./ContentItemBox";
 import desk from "../../../lib/api/desk";
 import template from "../../../lib/api/template";
 import { menuData } from "../../../contexts/menuData";
+import content from "../../../lib/api/Content";
 
 const ContentBox = () => {
   const router = useRouter();
@@ -23,7 +24,7 @@ const ContentBox = () => {
   // 문구 데이터 가져오기
   const { data: contentData } = useQuery(
     ["contentData", router.query.id],
-    () => axios(`${MAIN_URL}/content?id=${router.query.id}`),
+    () => content.getContent(router.query.id),
     {
       cacheTime: Infinity,
       staleTime: Infinity,
