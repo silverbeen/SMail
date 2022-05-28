@@ -20,7 +20,6 @@ type Props = {
 const ContentItemBox = ({ content, contentData, option }: Props) => {
   const queryClient = useQueryClient();
   const [mailValue, setMailValue] = useRecoilState(MailInputAtom);
-  const [isSave, setIsSave] = useRecoilState(isSaveAtom);
 
   // 내 서랍 문구 추가
   const { mutate: contentDeskSave } = useMutation(
@@ -29,6 +28,7 @@ const ContentItemBox = ({ content, contentData, option }: Props) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries("deskData");
+        queryClient.invalidateQueries("contentData");
         ToastSuccess("문구가 서랍에 저장되었습니다.");
       },
       onError: () => {
@@ -44,6 +44,7 @@ const ContentItemBox = ({ content, contentData, option }: Props) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries("deskData");
+        queryClient.invalidateQueries("contentData");
         ToastSuccess("서랍에서 삭제 되었습니다.");
       },
       onError: () => {
@@ -70,11 +71,9 @@ const ContentItemBox = ({ content, contentData, option }: Props) => {
   const contentSaveHandle = (id: number) => {
     switch (option) {
       case 1:
-        return "content";
+        return content.saved ? null : contentDeskSave(content.contentId);
       case 2:
-        return isSave
-          ? contentDeskSave(content.contentId)
-          : contentDeskDelete(content.id);
+        return content.saved ? null : contentDeskDelete(content.id);
 
       case 3:
         return templateDelete(id);
@@ -94,10 +93,6 @@ const ContentItemBox = ({ content, contentData, option }: Props) => {
     ToastSuccess("✏️문구가 추가되었습니다.");
   };
 
-  useEffect(() => {
-    setIsSave(false);
-  }, []);
-
   return (
     <ContentItemBoxWrapper key={content.contentId}>
       <pre>{content.content}</pre>
@@ -108,7 +103,7 @@ const ContentItemBox = ({ content, contentData, option }: Props) => {
           onClick={() => addIconClickHandle(content.contentId)}
         />
         <span onClick={() => contentSaveHandle(content.id)}>
-          {OptionStateIcon(option)}
+          {OptionStateIcon(option, content.saved)}
         </span>
       </div>
     </ContentItemBoxWrapper>
@@ -134,6 +129,7 @@ const ContentItemBoxWrapper = styled.div`
   }
 
   .item_box {
+    width: 20%;
     gap: 10px;
     display: flex;
     flex-direction: column;
