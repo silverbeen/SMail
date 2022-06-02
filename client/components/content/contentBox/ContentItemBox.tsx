@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
 import styled from "@emotion/styled";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { ToastSuccess } from "../../../lib/function/toast";
 import { MailInputAtom } from "../../../lib/module/atom/mail";
 import { ContentType } from "../../../@types/ContentTypes";
@@ -8,8 +7,9 @@ import { blueColor, mintBlueColor, mintColor } from "../../../styles/color";
 import { useMutation, useQueryClient } from "react-query";
 import desk from "../../../lib/api/desk";
 import template from "../../../lib/api/template";
-import { isSaveAtom } from "../../../lib/module/atom/content";
+import { contentMenuAtom } from "../../../lib/module/atom/content";
 import { OptionStateIcon } from "../../../lib/function/optionState";
+import { FC } from "react";
 
 type Props = {
   contentData: ContentType[] | any;
@@ -17,8 +17,9 @@ type Props = {
   option: number;
 };
 
-const ContentItemBox = ({ content, contentData, option }: Props) => {
+const ContentItemBox: FC<Props> = ({ content, contentData, option }) => {
   const queryClient = useQueryClient();
+  const contentMenu = useRecoilValue(contentMenuAtom);
   const [mailValue, setMailValue] = useRecoilState(MailInputAtom);
 
   // 내 서랍 문구 추가
@@ -74,20 +75,15 @@ const ContentItemBox = ({ content, contentData, option }: Props) => {
         return content.saved ? null : contentDeskSave(content.contentId);
       case 2:
         return content.saved ? null : contentDeskDelete(content.id);
-
       case 3:
         return templateDelete(id);
     }
   };
 
-  const addIconClickHandle = (contentId: number) => {
-    const textValue = contentData?.find(
-      (content: ContentType) => contentId === content.contentId
-    )?.content;
-
+  const addIconClickHandle = (content: string) => {
     setMailValue({
       ...mailValue,
-      content: mailValue.content + "\n" + textValue,
+      content: mailValue.content + "\n" + content,
     });
 
     ToastSuccess("✏️문구가 추가되었습니다.");
@@ -100,7 +96,7 @@ const ContentItemBox = ({ content, contentData, option }: Props) => {
         <img
           src="/assets/icon/CopyIcon.svg"
           alt=""
-          onClick={() => addIconClickHandle(content.contentId)}
+          onClick={() => addIconClickHandle(content.content)}
         />
         <span onClick={() => contentSaveHandle(content.id)}>
           {OptionStateIcon(option, content.saved)}

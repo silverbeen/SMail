@@ -6,8 +6,9 @@ import axios from "axios";
 import { useQuery } from "react-query";
 import { CategoryListType } from "../../@types/Category";
 import { MAIN_URL } from "../../lib/api/common";
+import { FC } from "react";
 
-const CategoryList = () => {
+const CategoryList: FC = () => {
   const router = useRouter();
 
   const { data: categoryData } = useQuery(

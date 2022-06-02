@@ -18,7 +18,6 @@ export class TemplateController {
   @Get()
   @HttpCode(HttpStatus.OK)
   async getTemplate(@Authorization() as: any) {
-    console.log(as);
     return await this.templateService.getTemplate(as.userId);
   }
 

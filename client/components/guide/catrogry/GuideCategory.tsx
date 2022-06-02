@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
-const GuideCategory = () => {
+const GuideCategory: FC = () => {
   const categorys = [
     "메일 예절",
     "답장률 높이는 제안",

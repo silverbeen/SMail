@@ -1,19 +1,18 @@
 import styled from "@emotion/styled";
-import axios from "axios";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import { useRecoilState } from "recoil";
-import { MAIN_URL } from "../../../lib/api/common";
 import { contentMenuAtom } from "../../../lib/module/atom/content";
 import { blueColor, grayBorderColor, mainColor } from "../../../styles/color";
 import { ContentType } from "../../../@types/ContentTypes";
+import { menuData } from "../../../contexts/menuData";
 import ContentItemBox from "./ContentItemBox";
 import desk from "../../../lib/api/desk";
 import template from "../../../lib/api/template";
-import { menuData } from "../../../contexts/menuData";
-import content from "../../../lib/api/Content";
+import content from "../../../lib/api/content";
+import { FC } from "react";
 
-const ContentBox = () => {
+const ContentBox: FC = () => {
   const router = useRouter();
   const [optionMenu, setSelected] = useRecoilState(contentMenuAtom);
 
@@ -22,7 +21,7 @@ const ContentBox = () => {
   };
 
   // 문구 데이터 가져오기
-  const { data: contentData } = useQuery(
+  const { data: contentData, isFetching } = useQuery(
     ["contentData", router.query.id],
     () => content.getContent(router.query.id),
     {
@@ -56,6 +55,10 @@ const ContentBox = () => {
     } else return templateData?.data;
   }
 
+  if (!isFetching) {
+    console.log(contentData);
+  }
+
   return (
     <ContentBoxContainer>
       <ContentWrapper>
@@ -78,11 +81,10 @@ const ContentBox = () => {
             <>등록된 문구가 없습니다.</>
           ) : (
             <>
-              {menuReturn()?.map((item: ContentType) => (
-                <article>
+              {menuReturn()?.map((item: ContentType, idx: number) => (
+                <article key={idx}>
                   {item.title && <TemplateTitle>{item.title}</TemplateTitle>}
                   <ContentItemBox
-                    key={item.id}
                     contentData={contentData?.data}
                     content={item}
                     option={optionMenu}

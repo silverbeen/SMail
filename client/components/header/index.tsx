@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { blueColor, mainColor, redColor } from "../../styles/color";
 
 const menuData = [
@@ -8,7 +8,7 @@ const menuData = [
   { id: "menu2", name: "메일 작성 가이드", path: "/guide" },
 ];
 
-const Header = () => {
+const Header: FC = () => {
   const router = useRouter();
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   const [isToken, setToken] = useState<any>();

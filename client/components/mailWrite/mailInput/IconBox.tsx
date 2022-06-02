@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { FC } from "react";
 import { mintBlueColor } from "../../../styles/color";
 
 type Props = {
@@ -8,12 +9,12 @@ type Props = {
   mailCopyHandle?: any;
 };
 
-const IconBox = ({
+const IconBox: FC<Props> = ({
   icon,
   templateModalOpen,
   mailSaveHandle,
   mailCopyHandle,
-}: Props) => {
+}) => {
   const IconNameChangeHandle = (icon: "Copy" | "Save" | "Plus") => {
     if (icon == "Copy") return "Copy";
     else if (icon == "Save") return "Save";

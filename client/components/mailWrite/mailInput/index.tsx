@@ -10,14 +10,14 @@ import { useRecoilState } from "recoil";
 import { MailInputAtom } from "../../../lib/module/atom/mail";
 import { useMutation, useQuery } from "react-query";
 import mail from "../../../lib/api/mail";
-import { useEffect, useRef } from "react";
+import { FC, useEffect, useRef } from "react";
 import { ToastError, ToastSuccess } from "../../../lib/function/toast";
 
 type Props = {
   modalOpenHandle?: () => void;
 };
 
-const MailInput = ({ modalOpenHandle }: Props) => {
+const MailInput: FC<Props> = ({ modalOpenHandle }) => {
   const contentRef = useRef(null);
   const [mailValue, setMailValue] = useRecoilState(MailInputAtom);
 

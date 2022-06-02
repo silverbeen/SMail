@@ -1,12 +1,12 @@
 import styled from "@emotion/styled";
-import React from "react";
+import React, { FC } from "react";
 
 type Props = {
   title: string;
   subTitle: string;
 };
 
-const Title = ({ title, subTitle }: Props) => {
+const Title: FC<Props> = ({ title, subTitle }) => {
   return (
     <TitleBox>
       <h1>{title}</h1>

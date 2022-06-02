@@ -1,13 +1,13 @@
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { MAIN_URL } from "../../../lib/api/common";
 import { ToastError, ToastSuccess } from "../../../lib/function/toast";
 import { InputBox, SignBtn, SignForm } from "../login";
 
-const SignLayout = () => {
+const SignLayout: FC = () => {
   const router = useRouter();
   const [btnColor, setBtnColor] = useState<boolean>(false);
   const [inputs, setInputs] = useState({

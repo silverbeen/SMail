@@ -24,7 +24,7 @@ export class UserdeskService {
       .createQueryBuilder('desk_content')
       .select('desk_content_id', 'id')
       .leftJoin('desk_content.content', 'content')
-      .addSelect('content.content_id', 'content_id')
+      .addSelect('content.content_id', 'contentId')
       .addSelect('content.content', 'content')
       .getRawMany();
 
