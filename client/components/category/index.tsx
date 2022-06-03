@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
-import { blueColor } from "../../styles/color";
+import { blueColor, mainColor } from "../../styles/color";
 import axios from "axios";
 import { useQuery } from "react-query";
 import { CategoryListType } from "../../@types/Category";
@@ -10,6 +10,7 @@ import { FC } from "react";
 
 const CategoryList: FC = () => {
   const router = useRouter();
+  const id = Number(router.query.id);
 
   const { data: categoryData } = useQuery(
     ["categoryList"],
@@ -27,7 +28,13 @@ const CategoryList: FC = () => {
         <CategoryItems key={index}>
           <h3>{categorys.title}</h3>
           {categorys.list.map((field) => (
-            <li key={field.fieldId}>
+            <li
+              key={field.fieldId}
+              style={{
+                color: field.fieldId === id ? `${mainColor}` : "",
+                fontWeight: field.fieldId === id ? 500 : "",
+              }}
+            >
               <Link href={`?id=${field.fieldId}`}>{field.fieldName}</Link>
             </li>
           ))}
