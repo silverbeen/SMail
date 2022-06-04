@@ -98,9 +98,10 @@ const ContentItemBox: FC<Props> = ({ content, contentData, option }) => {
           alt=""
           onClick={() => addIconClickHandle(content.content)}
         />
-        <span onClick={() => contentSaveHandle(content.id)}>
-          {OptionStateIcon(option, content.saved)}
-        </span>
+        <img
+          src={`assets/icon/${OptionStateIcon(option, content.saved)}Icon.svg`}
+          onClick={() => contentSaveHandle(content.id)}
+        />
       </div>
     </ContentItemBoxWrapper>
   );
@@ -139,8 +140,13 @@ const ContentItemBoxWrapper = styled.div`
     }
 
     > img {
-      height: 16px;
+      width: 15px;
       cursor: pointer;
+      transition: all 0.3s;
+
+      :hover {
+        background: rgba(85, 125, 242, 0.6);
+      }
     }
   }
 `;

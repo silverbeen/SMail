@@ -10,7 +10,7 @@ export function OptionStateChange(id: 1 | 2 | 3) {
 }
 
 export function OptionStateIcon(id: number, saved: boolean) {
-  if (id === 1 && saved) return "saved";
-  else if (id === 1 && !saved) return "add";
-  else return "delete";
+  if (id === 1 && saved) return "Save";
+  else if (id === 1 && !saved) return "Plus";
+  else return "Delete";
 }
