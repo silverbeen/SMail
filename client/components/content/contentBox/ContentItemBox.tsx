@@ -1,15 +1,21 @@
+import { FC } from "react";
 import styled from "@emotion/styled";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { ToastSuccess } from "../../../lib/function/toast";
 import { MailInputAtom } from "../../../lib/module/atom/mail";
 import { ContentType } from "../../../@types/ContentTypes";
-import { blueColor, mintBlueColor, mintColor } from "../../../styles/color";
+import {
+  blueColor,
+  mainColor,
+  mintBlueColor,
+  mintColor,
+} from "../../../styles/color";
 import { useMutation, useQueryClient } from "react-query";
 import desk from "../../../lib/api/desk";
 import template from "../../../lib/api/template";
 import { contentMenuAtom } from "../../../lib/module/atom/content";
 import { OptionStateIcon } from "../../../lib/function/optionState";
-import { FC } from "react";
+import CopyIcon from "../../../public/assets/icon/CopyIcon.svg";
 
 type Props = {
   contentData: ContentType[] | any;
@@ -93,11 +99,12 @@ const ContentItemBox: FC<Props> = ({ content, contentData, option }) => {
     <ContentItemBoxWrapper key={content.contentId}>
       <pre>{content.content}</pre>
       <div className="item_box">
-        <img
+        {/* <img
           src="/assets/icon/CopyIcon.svg"
           alt=""
           onClick={() => addIconClickHandle(content.content)}
-        />
+        /> */}
+        <CopyIcon />
         <img
           src={`assets/icon/${OptionStateIcon(option, content.saved)}Icon.svg`}
           onClick={() => contentSaveHandle(content.id)}
@@ -139,13 +146,22 @@ const ContentItemBoxWrapper = styled.div`
       color: ${mintBlueColor};
     }
 
+    svg {
+      fill: ${mintBlueColor};
+      transition: all 0.3s;
+
+      :hover {
+        fill: ${mainColor};
+      }
+    }
+
     > img {
       width: 15px;
       cursor: pointer;
       transition: all 0.3s;
 
-      :hover {
-        background: rgba(85, 125, 242, 0.6);
+      :hover img {
+        fill: rgba(85, 125, 242, 0.6);
       }
     }
   }
