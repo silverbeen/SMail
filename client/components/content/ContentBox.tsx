@@ -2,14 +2,14 @@ import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import { useRecoilState } from "recoil";
-import { contentMenuAtom } from "../../../lib/module/atom/content";
-import { blueColor, grayBorderColor, mainColor } from "../../../styles/color";
-import { ContentType } from "../../../@types/ContentTypes";
-import { menuData } from "../../../contexts/menuData";
+import { contentMenuAtom } from "../../lib/module/atom/content";
+import { blueColor, grayBorderColor, mainColor } from "../../styles/color";
+import { ContentType } from "../../@types/ContentTypes";
+import { menuData } from "../../contexts/menuData";
 import ContentItemBox from "./ContentItemBox";
-import desk from "../../../lib/api/desk";
-import template from "../../../lib/api/template";
-import content from "../../../lib/api/content";
+import desk from "../../lib/api/desk";
+import template from "../../lib/api/template";
+import content from "../../lib/api/content";
 import { FC } from "react";
 
 const ContentBox: FC = () => {

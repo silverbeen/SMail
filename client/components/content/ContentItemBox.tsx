@@ -1,21 +1,21 @@
 import { FC } from "react";
 import styled from "@emotion/styled";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { ToastSuccess } from "../../../lib/function/toast";
-import { MailInputAtom } from "../../../lib/module/atom/mail";
-import { ContentType } from "../../../@types/ContentTypes";
+import { ToastSuccess } from "../../lib/function/toast";
+import { MailInputAtom } from "../../lib/module/atom/mail";
+import { ContentType } from "../../@types/ContentTypes";
 import {
   blueColor,
   mainColor,
   mintBlueColor,
   mintColor,
-} from "../../../styles/color";
+} from "../../styles/color";
 import { useMutation, useQueryClient } from "react-query";
-import desk from "../../../lib/api/desk";
-import template from "../../../lib/api/template";
-import { contentMenuAtom } from "../../../lib/module/atom/content";
-import { OptionStateIcon } from "../../../lib/function/optionState";
-import CopyIcon from "../../../public/assets/icon/CopyIcon.svg";
+import desk from "../../lib/api/desk";
+import template from "../../lib/api/template";
+import { contentMenuAtom } from "../../lib/module/atom/content";
+import { OptionStateIcon } from "../../lib/function/optionState";
+import CopyIcon from "../../public/assets/icon/CopyIcon.svg";
 
 type Props = {
   contentData: ContentType[] | any;
@@ -99,14 +99,9 @@ const ContentItemBox: FC<Props> = ({ content, contentData, option }) => {
     <ContentItemBoxWrapper key={content.contentId}>
       <pre>{content.content}</pre>
       <div className="item_box">
-        {/* <img
-          src="/assets/icon/CopyIcon.svg"
-          alt=""
-          onClick={() => addIconClickHandle(content.content)}
-        /> */}
-        <CopyIcon />
+        <CopyIcon onClick={() => addIconClickHandle(content.content)} />
         <img
-          src={`assets/icon/${OptionStateIcon(option, content.saved)}Icon.svg`}
+          src={`/assets/icon/${OptionStateIcon(option, content.saved)}Icon.svg`}
           onClick={() => contentSaveHandle(content.id)}
         />
       </div>
