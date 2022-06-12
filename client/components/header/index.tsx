@@ -8,7 +8,11 @@ const menuData = [
   { id: "menu2", name: "메일 작성 가이드", path: "/guide" },
 ];
 
-const Header: FC = () => {
+type Props = {
+  changeColor?: boolean;
+};
+
+const Header: FC<Props> = ({ changeColor }) => {
   const router = useRouter();
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   const [isToken, setToken] = useState<any>();
@@ -34,7 +38,7 @@ const Header: FC = () => {
   }, []);
 
   return (
-    <HeaderContainer>
+    <HeaderContainer changeColor={changeColor}>
       <img src="logo" alt="logo" />
       <MenuContainer>
         {menuData.map((menu) => (
@@ -72,7 +76,7 @@ const Header: FC = () => {
 
 export default Header;
 
-const HeaderContainer = styled.header`
+const HeaderContainer = styled.header<{ changeColor?: boolean }>`
   padding: 0 7.5%;
   box-sizing: border-box;
   position: fixed;
@@ -82,10 +86,11 @@ const HeaderContainer = styled.header`
   top: 0;
   width: 100%;
   height: 55px;
-  background: #ffffff;
+  background: ${({ changeColor }) => (changeColor ? "#ffffffb8" : "#ffffff")};
   box-shadow: 0px 7px 14px rgba(214, 214, 214, 0.25);
   display: flex;
   flex-direction: row;
+  transition: all 0.5s;
 `;
 
 const MenuContainer = styled.ul`
@@ -94,12 +99,15 @@ const MenuContainer = styled.ul`
   height: 30px;
 
   & li {
+    padding: 5px 10px;
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 10px;
     color: ${blueColor};
     font-size: 14px;
+    background: white;
+    border-radius: 5px;
 
     > a {
       font-weight: 500;

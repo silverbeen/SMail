@@ -3,7 +3,7 @@ import { mainColor } from "../../styles/color";
 
 export function ToastSuccess(text: string | null) {
   toast.success(`${text}`, {
-    position: "top-center",
+    position: "bottom-right",
     autoClose: 1500,
     hideProgressBar: true,
     closeOnClick: true,
@@ -16,7 +16,7 @@ export function ToastSuccess(text: string | null) {
 
 export function ToastError(text: string | null) {
   toast.error(`${text}`, {
-    position: "top-center",
+    position: "bottom-right",
     autoClose: 1500,
     hideProgressBar: true,
     closeOnClick: true,
