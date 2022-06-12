@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import type { NextPage } from "next";
 import { useState } from "react";
 import CategoryList from "../components/category";
-import ContentBox from "../components/content/contentBox/ContentBox";
+import ContentBox from "../components/content/ContentBox";
 import Header from "../components/header";
 import MailInput from "../components/mailWrite/mailInput";
 import Title from "../components/mailWrite/title";
