@@ -1,14 +1,19 @@
 import styled from "@emotion/styled";
 import { FC, useEffect, useState } from "react";
 
-const GuideCategory: FC = () => {
-  const categorys = [
-    "메일 예절",
-    "답장률 높이는 제안",
-    "공고 메일",
-    "비지니스 메일",
-    "섭외 메일",
-  ];
+const categorys = [
+  "메일 예절",
+  "답장률 높이는 제안",
+  "공고 메일",
+  "비지니스 메일",
+  "섭외 메일",
+];
+
+type Props = {
+  setSelectCategory: any;
+};
+
+const GuideCategory: FC<Props> = ({ setSelectCategory }) => {
   const [idx, setIdx] = useState(0);
   const sec = 3;
 
@@ -24,6 +29,7 @@ const GuideCategory: FC = () => {
     <CategoryContainer>
       {categorys.map((_, index) => (
         <Text
+          onClick={() => setSelectCategory(_)}
           style={
             idx % categorys.length === index
               ? {
