@@ -20,11 +20,11 @@ export class ContentService {
 
     const content = await this.contentRepository.find({ fieldId: id });
 
-    return content.map((testContent) => {
+    return content.map((itemContent) => {
       return {
-        ...testContent,
+        ...itemContent,
         saved:
-          deskContent.filter((item) => item.contentId === testContent.contentId)
+          deskContent.filter((item) => item.contentId === itemContent.contentId)
             .length === 0
             ? false
             : true,
