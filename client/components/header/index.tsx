@@ -4,7 +4,7 @@ import { FC, useEffect, useState } from "react";
 import { blueColor, mainColor, redColor } from "../../styles/color";
 
 const menuData = [
-  { id: "menu0", name: "메일 작성", path: "/" },
+  { id: "menu0", name: "메일 작성", path: "/?id=15" },
   { id: "menu2", name: "메일 작성 가이드", path: "/guide" },
 ];
 
@@ -39,7 +39,7 @@ const Header: FC<Props> = ({ changeColor }) => {
 
   return (
     <HeaderContainer changeColor={changeColor}>
-      <img src="logo" alt="logo" />
+      <img src="/assets/icon/smail_logo.png" alt="logo" />
       <MenuContainer>
         {menuData.map((menu) => (
           <li key={menu.id}>
@@ -77,6 +77,10 @@ const Header: FC<Props> = ({ changeColor }) => {
 export default Header;
 
 const HeaderContainer = styled.header<{ changeColor?: boolean }>`
+  > img {
+    height: 40px;
+  }
+
   padding: 0 7.5%;
   box-sizing: border-box;
   position: fixed;

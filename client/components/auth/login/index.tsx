@@ -3,12 +3,14 @@ import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { MAIN_URL } from "../../../lib/api/common";
 import { ToastError, ToastSuccess } from "../../../lib/function/toast";
 import { mintBlueColor } from "../../../styles/color";
 
 const LoginLayout: FC = () => {
+  const queryClient = useQueryClient();
+
   const router = useRouter();
   const [btnColor, setBtnColor] = useState<boolean>(false);
   const [inputs, setInputs] = useState({
@@ -44,6 +46,7 @@ const LoginLayout: FC = () => {
     {
       onSuccess: (res) => {
         localStorage.setItem("access-token", res.data.access_token);
+        queryClient.invalidateQueries("mailData");
         ToastSuccess("로그인 되었습니다");
         setTimeout(() => {
           router.replace("/");
