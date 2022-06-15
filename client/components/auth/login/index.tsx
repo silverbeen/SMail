@@ -46,9 +46,9 @@ const LoginLayout: FC = () => {
     {
       onSuccess: (res) => {
         localStorage.setItem("access-token", res.data.access_token);
-        queryClient.invalidateQueries("mailData");
         ToastSuccess("로그인 되었습니다");
         setTimeout(() => {
+          queryClient.invalidateQueries("mailData");
           router.replace("/");
         }, 1000);
       },

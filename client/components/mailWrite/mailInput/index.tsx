@@ -43,8 +43,9 @@ const MailInput: FC<Props> = ({ modalOpenHandle }) => {
   };
 
   const { data: mailData } = useQuery("mailData", () => mail.getMail(), {
-    staleTime: Infinity,
     cacheTime: Infinity,
+    refetchInterval: 6000 * 5,
+    
     onSuccess: () => {
       ToastSuccess("저장된 메일을 불러왔습니다.");
     },
