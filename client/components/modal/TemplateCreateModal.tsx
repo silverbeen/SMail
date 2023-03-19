@@ -134,11 +134,11 @@ const ModalBoxWrapper = styled.div`
       font-size: 16px;
     }
 
-    & button:nth-child(1) {
+    & button:nth-of-type(1) {
       color: ${redColor};
     }
 
-    & button:nth-child(2) {
+    & button:nth-of-type(2) {
       color: ${mainColor};
     }
   }
