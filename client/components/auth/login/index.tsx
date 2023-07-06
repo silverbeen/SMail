@@ -1,12 +1,13 @@
 import styled from "@emotion/styled";
 import axios from "axios";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { FC, useEffect, useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
-import { MAIN_URL } from "../../../lib/api/common";
-import { ToastError, ToastSuccess } from "../../../lib/function/toast";
-import { mintBlueColor } from "../../../styles/color";
+import {useRouter} from "next/router";
+import {FC, useEffect, useState} from "react";
+import {useMutation, useQueryClient} from "react-query";
+import {MAIN_URL} from "../../../service/common";
+import {ToastError, ToastSuccess} from "../../../lib/function/toast";
+import {mintBlueColor} from "../../../styles/color";
+import {USER_KEYS} from "../../../service/query-hooks/user";
 
 const LoginLayout: FC = () => {
   const queryClient = useQueryClient();
@@ -22,11 +23,11 @@ const LoginLayout: FC = () => {
     e.preventDefault();
 
     signMutation();
-    setInputs({ userId: "", userPassword: "" });
+    setInputs({userId: "", userPassword: ""});
   };
 
   const inputChangeHandle = (e: any) => {
-    const { name, value } = e.target;
+    const {name, value} = e.target;
 
     setInputs({
       ...inputs,
@@ -40,7 +41,7 @@ const LoginLayout: FC = () => {
       : setBtnColor(false);
   }, [inputs]);
 
-  const { mutate: signMutation } = useMutation(
+  const {mutate: signMutation} = useMutation(
     "login",
     () => axios.post(`${MAIN_URL}/user/login`, inputs),
     {
@@ -139,7 +140,7 @@ export const InputBox = styled.div`
   }
 `;
 
-export const SignBtn = styled.button<{ btnColor: boolean }>`
+export const SignBtn = styled.button<{btnColor: boolean}>`
   font-size: 14px;
   width: 100%;
   margin-top: 20px;
@@ -147,7 +148,7 @@ export const SignBtn = styled.button<{ btnColor: boolean }>`
   color: white;
   border: none;
   box-sizing: border-box;
-  background: ${({ btnColor }) =>
+  background: ${({btnColor}) =>
     btnColor ? `${mintBlueColor}` : "rgba(255, 255, 255, 0.38)"};
   border-radius: 5px;
   cursor: pointer;

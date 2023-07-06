@@ -1,21 +1,34 @@
 import styled from "@emotion/styled";
-import { useRouter } from "next/router";
-import { FC, useEffect, useState } from "react";
-import { blueColor, mainColor, redColor } from "../../styles/color";
+import {useRouter} from "next/router";
+import {FC, useEffect, useRef, useState} from "react";
+import {blueColor, mainColor, redColor} from "../../styles/color";
+import {useGetUser} from "../../service/query-hooks/user";
 
 const menuData = [
-  { id: "menu0", name: "메일 작성", path: "/?id=15" },
-  { id: "menu2", name: "메일 작성 가이드", path: "/guide" },
+  {id: "menu0", name: "메일 작성", path: "/?id=15"},
+  {id: "menu2", name: "메일 작성 가이드", path: "/guide"},
 ];
 
 type Props = {
   changeColor?: boolean;
 };
 
-const Header: FC<Props> = ({ changeColor }) => {
+const Header: FC<Props> = ({changeColor}) => {
   const router = useRouter();
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   const [isToken, setToken] = useState<any>();
+  const userIdRef = useRef<string>("");
+  const usernameRef = useRef<string>("");
+
+  useEffect(() => {
+    const userId = localStorage.getItem("userId") ?? "";
+    const username = localStorage.getItem("username") ?? "";
+
+    userIdRef.current = userId;
+    usernameRef.current = username;
+  }, []);
+
+  const {data: userData} = useGetUser(userIdRef.current);
 
   const openMenuHandle = () => {
     openMenu ? setOpenMenu(false) : setOpenMenu(true);
@@ -57,7 +70,7 @@ const Header: FC<Props> = ({ changeColor }) => {
           <ProfileContainer>
             <div className="profile_box" onClick={openMenuHandle}>
               <div className="profile_circle" />
-              <span>fgh</span>
+              <span>{usernameRef.current}</span>
               <img src="/assets/icon/ArrowIcon.svg" alt="더보기 아이콘" />
             </div>
             <MoreMenu onClick={logoutHandle} openMenu={openMenu}>
@@ -76,7 +89,7 @@ const Header: FC<Props> = ({ changeColor }) => {
 
 export default Header;
 
-const HeaderContainer = styled.header<{ changeColor?: boolean }>`
+const HeaderContainer = styled.header<{changeColor?: boolean}>`
   > img {
     height: 40px;
   }
@@ -90,7 +103,7 @@ const HeaderContainer = styled.header<{ changeColor?: boolean }>`
   top: 0;
   width: 100%;
   height: 55px;
-  background: ${({ changeColor }) => (changeColor ? "#ffffffb8" : "#ffffff")};
+  background: ${({changeColor}) => (changeColor ? "#ffffffb8" : "#ffffff")};
   box-shadow: 0px 7px 14px rgba(214, 214, 214, 0.25);
   display: flex;
   flex-direction: row;
@@ -144,9 +157,9 @@ const ProfileContainer = styled.div`
   }
 `;
 
-const MoreMenu = styled.div<{ openMenu: boolean }>`
+const MoreMenu = styled.div<{openMenu: boolean}>`
   display: flex;
-  opacity: ${({ openMenu }) => (openMenu ? 1 : 0)};
+  opacity: ${({openMenu}) => (openMenu ? 1 : 0)};
   transition: all 0.2s;
   position: relative;
   top: 16px;

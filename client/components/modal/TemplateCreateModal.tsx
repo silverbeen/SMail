@@ -1,31 +1,31 @@
 import styled from "@emotion/styled";
-import { FC, useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
-import { ToastSuccess } from "../../lib/function/toast";
-import Template from "../../lib/api/template";
+import {FC, useState} from "react";
+import {useMutation, useQueryClient} from "react-query";
+import {ToastSuccess} from "../../lib/function/toast";
 import {
   blueColor,
   grayTextColor,
   mainColor,
   redColor,
 } from "../../styles/color";
-import { useRecoilState } from "recoil";
-import { MailInputAtom } from "../../lib/module/atom/mail";
+import {useRecoilState} from "recoil";
+import {MailInputAtom} from "../../lib/module/atom/mail";
+import {usePostTemplate} from "../../service/query-hooks/template";
 
 type Props = {
   openModal: boolean;
   setModalOpen: (openModal: boolean) => void;
 };
 
-const TemplateCreateModal: FC<Props> = ({ openModal, setModalOpen }) => {
-  const queryClient = useQueryClient();
+const TemplateCreateModal: FC<Props> = ({openModal, setModalOpen}) => {
   const [titleValue, setTitleValue] = useState<string | "">("");
   const [mailValue, setMailValue] = useRecoilState(MailInputAtom);
+  const {mutate: createTemplate} = usePostTemplate();
 
   const addTemplateHandle = () => {
     ToastSuccess("템플릿이 추가되었습니다.");
 
-    createTemplate();
+    createTemplate(mailValue);
     modalCloseHandle();
     setTitleValue("");
   };
@@ -34,20 +34,6 @@ const TemplateCreateModal: FC<Props> = ({ openModal, setModalOpen }) => {
     setModalOpen(false);
     setTitleValue("");
   };
-
-  const { mutate: createTemplate } = useMutation(
-    "createTemplate",
-    () =>
-      Template.createTemplate({
-        title: titleValue,
-        desk_text: mailValue.content,
-      }),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries("templateData");
-      },
-    }
-  );
 
   return (
     <ModalContainer openModal={openModal}>
@@ -74,14 +60,14 @@ const TemplateCreateModal: FC<Props> = ({ openModal, setModalOpen }) => {
   );
 };
 
-const ModalContainer = styled.div<{ openModal: boolean }>`
+const ModalContainer = styled.div<{openModal: boolean}>`
   width: 100vw;
   height: 100vh;
   position: fixed;
   top: 0;
   left: 0;
   background: rgba(255, 255, 255, 0.49);
-  display: ${({ openModal }) => (openModal ? "flex" : "none")};
+  display: ${({openModal}) => (openModal ? "flex" : "none")};
   align-items: center;
   justify-content: center;
 `;

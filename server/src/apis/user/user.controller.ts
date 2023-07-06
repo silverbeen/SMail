@@ -25,15 +25,17 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
-  @Get(':id')
-  @HttpCode(HttpStatus.OK)
-  findOne(@Param('id') id: string): Promise<User> {
-    return this.userService.findOne(id);
-  }
-
+  // sign-in
   @Post('/login')
   @HttpCode(HttpStatus.OK)
   login(@Body() authUserDto: AuthUserDto): Promise<any> {
     return this.userService.login(authUserDto);
+  }
+
+  // user find one
+  @Get(':id')
+  @HttpCode(HttpStatus.OK)
+  findOne(@Param('id') id: string): Promise<User> {
+    return this.userService.findOne(id);
   }
 }

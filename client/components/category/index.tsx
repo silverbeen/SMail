@@ -1,41 +1,35 @@
 import Link from "next/link";
 import styled from "@emotion/styled";
-import { useRouter } from "next/router";
-import { blueColor, mainColor } from "../../styles/color";
+import {useRouter} from "next/router";
+import {blueColor, mainColor} from "../../styles/color";
 import axios from "axios";
-import { useQuery } from "react-query";
-import { CategoryListType } from "../../@types/Category";
-import { MAIN_URL } from "../../lib/api/common";
-import { FC } from "react";
+import {useQuery} from "react-query";
+import {MAIN_URL} from "../../service/common";
+import {FC} from "react";
+import {
+  useGetCategory,
+  CategoryResponseDto,
+} from "../../service/query-hooks/category";
 
 const CategoryList: FC = () => {
   const router = useRouter();
   const id = Number(router.query.id);
-
-  const { data: categoryData } = useQuery(
-    ["categoryList"],
-    () => axios(`${MAIN_URL}/category`),
-    {
-      staleTime: Infinity,
-      cacheTime: Infinity,
-      keepPreviousData: true,
-    }
-  );
+  const {data: categoryData} = useGetCategory();
 
   return (
     <CategoryListContainer>
-      {categoryData?.data.map((categorys: CategoryListType, index: number) => (
+      {categoryData?.map((category: CategoryResponseDto, index: number) => (
         <CategoryItems key={index}>
-          <h3>{categorys.title}</h3>
-          {categorys.list.map((field) => (
+          <h3>{category.title}</h3>
+          {category.list.map((item) => (
             <li
-              key={field.fieldId}
+              key={item.fieldId}
               style={{
-                color: field.fieldId === id ? `${mainColor}` : "",
-                fontWeight: field.fieldId === id ? 500 : "",
+                color: item.fieldId === id ? `${mainColor}` : "",
+                fontWeight: item.fieldId === id ? 500 : "",
               }}
             >
-              <Link href={`?id=${field.fieldId}`}>{field.fieldName}</Link>
+              <Link href={`categoryTab=${item.fieldId}`}>{item.fieldName}</Link>
             </li>
           ))}
         </CategoryItems>

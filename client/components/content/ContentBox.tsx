@@ -1,63 +1,45 @@
+import {FC} from "react";
 import styled from "@emotion/styled";
-import { useRouter } from "next/router";
-import { useQuery } from "react-query";
-import { useRecoilState } from "recoil";
-import { contentMenuAtom } from "../../lib/module/atom/content";
-import { blueColor, grayBorderColor, mainColor } from "../../styles/color";
-import { ContentType } from "../../@types/ContentTypes";
-import { menuData } from "../../contexts/menuData";
+import {useRouter} from "next/router";
+import {useQuery} from "react-query";
+import {useRecoilState} from "recoil";
+
+import {contentMenuAtom} from "../../lib/module/atom/content";
+import {blueColor, grayBorderColor, mainColor} from "../../styles/color";
+import {menuData} from "../../contexts/menuData";
 import ContentItemBox from "./ContentItemBox";
-import desk from "../../lib/api/desk";
-import template from "../../lib/api/template";
-import content from "../../lib/api/content";
-import { FC } from "react";
+import {
+  ContentResponseDto,
+  useGetContents,
+} from "../../service/query-hooks/content";
+import {useGetDesk} from "../../service/query-hooks/desk";
+import {useGetTemplate} from "../../service/query-hooks/template";
 
 const ContentBox: FC = () => {
   const router = useRouter();
+  const contentId = Number(router.query.id);
   const [optionMenu, setSelected] = useRecoilState(contentMenuAtom);
 
   const menuClickHandle = (id: number) => {
     setSelected(id);
   };
 
-  // 문구 데이터 가져오기
-  const { data: contentData, isFetching } = useQuery(
-    ["contentData", router.query.id],
-    () => content.getContent(router.query.id),
-    {
-      cacheTime: Infinity,
-      staleTime: Infinity,
-      enabled: !!router.query.id,
+  const {data: contentData} = useGetContents(contentId);
+  const {data: deskData} = useGetDesk();
+  const {data: templateData} = useGetTemplate();
+
+  const renderData = () => {
+    switch (optionMenu) {
+      case 1:
+        return contentData && contentData;
+      case 2:
+        return deskData && deskData.deskContent;
+      case 3:
+        return templateData && templateData;
+      default:
+        return [];
     }
-  );
-
-  // 서랍 데이터 가져오기
-  const { data: deskData } = useQuery(["deskData"], () => desk.getDesk(), {
-    cacheTime: Infinity,
-    staleTime: Infinity,
-  });
-
-  // 템플릿 데이터 가져오기
-  const { data: templateData } = useQuery(
-    ["templateData"],
-    () => template.getTemplate(),
-    {
-      cacheTime: Infinity,
-      staleTime: Infinity,
-    }
-  );
-
-  function menuReturn() {
-    if (optionMenu === 1) {
-      return contentData?.data;
-    } else if (optionMenu === 2) {
-      return deskData?.data.deskContent;
-    } else return templateData?.data;
-  }
-
-  if (!isFetching) {
-    console.log(contentData);
-  }
+  };
 
   return (
     <ContentBoxContainer>
@@ -77,21 +59,21 @@ const ContentBox: FC = () => {
           ))}
         </MenuContainer>
         <ContentItemList>
-          {contentData?.data === [] ? (
-            <>등록된 문구가 없습니다.</>
-          ) : (
+          {contentData && contentData.length > 0 ? (
             <>
-              {menuReturn()?.map((item: ContentType, idx: number) => (
+              {renderData()?.map((item: any, idx: number) => (
                 <article key={idx}>
                   {item.title && <TemplateTitle>{item.title}</TemplateTitle>}
                   <ContentItemBox
-                    contentData={contentData?.data}
+                    contentData={contentData}
                     content={item}
                     option={optionMenu}
                   />
                 </article>
               ))}
             </>
+          ) : (
+            <>등록된 문구가 없습니다.</>
           )}
         </ContentItemList>
       </ContentWrapper>

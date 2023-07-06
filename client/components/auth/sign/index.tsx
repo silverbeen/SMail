@@ -1,11 +1,11 @@
 import axios from "axios";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { FC, useEffect, useState } from "react";
-import { useMutation } from "react-query";
-import { MAIN_URL } from "../../../lib/api/common";
-import { ToastError, ToastSuccess } from "../../../lib/function/toast";
-import { InputBox, SignBtn, SignForm } from "../login";
+import {useRouter} from "next/router";
+import {FC, useEffect, useState} from "react";
+import {useMutation} from "react-query";
+import {MAIN_URL} from "../../../service/common";
+import {ToastError, ToastSuccess} from "../../../lib/function/toast";
+import {InputBox, SignBtn, SignForm} from "../login";
 
 const SignLayout: FC = () => {
   const router = useRouter();
@@ -20,11 +20,11 @@ const SignLayout: FC = () => {
     e.preventDefault();
 
     signMutation();
-    setInputs({ userId: "", userPassword: "", userName: "" });
+    setInputs({userId: "", userPassword: "", userName: ""});
   };
 
   const inputChangeHandle = (e: any) => {
-    const { name, value } = e.target;
+    const {name, value} = e.target;
 
     setInputs({
       ...inputs,
@@ -40,7 +40,7 @@ const SignLayout: FC = () => {
       : setBtnColor(false);
   }, [inputs]);
 
-  const { mutate: signMutation } = useMutation(
+  const {mutate: signMutation} = useMutation(
     "sign",
     () => axios.post(`${MAIN_URL}/user`, inputs),
     {

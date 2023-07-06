@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
-import { NextPage } from "next";
-import { HomeConrainer } from "./index";
+import {NextPage} from "next";
 import Header from "../components/header";
 import LoginLayout from "../components/auth/login";
+import {HomeContainer} from ".";
 
 const Login: NextPage = () => {
   return (
@@ -13,7 +13,7 @@ const Login: NextPage = () => {
   );
 };
 
-export const SignFormContainer = styled(HomeConrainer)`
+export const SignFormContainer = styled(HomeContainer)`
   margin: 0 auto;
   align-items: center;
 `;

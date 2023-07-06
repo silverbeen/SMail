@@ -1,28 +1,24 @@
 import styled from "@emotion/styled";
-import {
-  blueColor,
-  grayBorderColor,
-  grayTextColor,
-} from "../../../styles/color";
+import {blueColor, grayBorderColor, grayTextColor} from "../../../styles/color";
 import TextareaAutosize from "react-textarea-autosize";
 import IconBox from "./IconBox";
-import { useRecoilState } from "recoil";
-import { MailInputAtom } from "../../../lib/module/atom/mail";
-import { useMutation, useQuery } from "react-query";
-import mail from "../../../lib/api/mail";
-import { FC, useEffect, useRef } from "react";
-import { ToastError, ToastSuccess } from "../../../lib/function/toast";
+import {useRecoilState} from "recoil";
+import {MailInputAtom} from "../../../lib/module/atom/mail";
+import {useMutation, useQuery} from "react-query";
+import {FC, useEffect, useRef} from "react";
+import {ToastError, ToastSuccess} from "../../../lib/function/toast";
+import {useGetMails, usePostMail} from "../../../service/query-hooks/mail";
 
 type Props = {
   modalOpenHandle?: () => void;
 };
 
-const MailInput: FC<Props> = ({ modalOpenHandle }) => {
+const MailInput: FC<Props> = ({modalOpenHandle}) => {
   const contentRef = useRef(null);
   const [mailValue, setMailValue] = useRecoilState(MailInputAtom);
 
   const mailSaveHandle = () => {
-    saveMailMutate();
+    saveMailMutate(mailValue);
   };
 
   const mailCopyHandle = () => {
@@ -34,7 +30,7 @@ const MailInput: FC<Props> = ({ modalOpenHandle }) => {
   };
 
   const inputChangeHandle = (e: any) => {
-    const { name, value } = e.target;
+    const {name, value} = e.target;
 
     setMailValue({
       ...mailValue,
@@ -42,35 +38,15 @@ const MailInput: FC<Props> = ({ modalOpenHandle }) => {
     });
   };
 
-  const { data: mailData } = useQuery("mailData", () => mail.getMail(), {
-    cacheTime: Infinity,
-    refetchInterval: 1000 * 60 * 5,
-
-    onSuccess: () => {
-      ToastSuccess("저장된 메일을 불러왔습니다.");
-    },
-    onError: () => {
-      ToastError("저장된 메일을 불러오기에 실패했습니다.");
-    },
-  });
-
-  const { mutate: saveMailMutate } = useMutation(
-    "saveMail",
-    () => mail.postMail(mailValue),
-    {
-      onSuccess: () => {
-        ToastSuccess("메일을 저장했습니다.");
-      },
-      onError: () => {
-        ToastError("다시 시도해주세요");
-      },
-    }
-  );
+  const {data: mailData} = useGetMails();
+  const {mutate: saveMailMutate} = usePostMail();
 
   useEffect(() => {
+    if (!mailData) return;
+
     setMailValue({
-      title: mailData?.data.mailTitle,
-      content: mailData?.data.mailContent,
+      title: mailData.mailTitle,
+      content: mailData.mailContent,
     });
   }, [mailData]);
 

@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
-import type { NextPage } from "next";
-import { useState } from "react";
+import type {NextPage} from "next";
+import {useState} from "react";
 import CategoryList from "../components/category";
 import ContentBox from "../components/content/ContentBox";
 import Header from "../components/header";
@@ -18,7 +18,7 @@ const Home: NextPage = () => {
   };
 
   return (
-    <HomeConrainer>
+    <HomeContainer>
       <TemplateDeleteModal
         openModal={temDelModalOpen}
         setModalOpen={setTemDelModalOpen}
@@ -39,11 +39,11 @@ const Home: NextPage = () => {
           <MailInput modalOpenHandle={modalOpenHandle} />
         </MailContainer>
       </ContentContainer>
-    </HomeConrainer>
+    </HomeContainer>
   );
 };
 
-export const HomeConrainer = styled.div`
+export const HomeContainer = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;
